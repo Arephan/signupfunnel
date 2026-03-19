@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignupFunnel — Turn Traffic Into Customers</title>
+  <meta name="description" content="We build high-converting signup funnels, booking flows, and lead capture systems that turn your traffic into revenue.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #131316;
+      --surface-2: #1a1a1f;
+      --border: #2a2a30;
+      --text: #ededef;
+      --text-muted: #8a8a94;
+      --accent: #635bff;
+      --accent-light: #7c75ff;
+      --accent-glow: rgba(99, 91, 255, 0.15);
+      --green: #30d158;
+      --orange: #ff9f0a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav a.cta-sm {
+      padding: 8px 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: background 0.2s;
+    }
+    nav a.cta-sm:hover { background: var(--accent-light); }
+
+    /* HERO */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(99, 91, 255, 0.3);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-light);
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 40px rgba(99, 91, 255, 0.3);
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(99, 91, 255, 0.4);
+    }
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* STATS BAR */
+    .stats {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent-light);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* PROBLEM */
+    .problem {
+      padding: 100px 0;
+    }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .problem h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      letter-spacing: -0.02em;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .problem-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .problem-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .problem-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* HOW IT WORKS */
+    .how {
+      padding: 100px 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .how .container { text-align: center; }
+    .how h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 60px;
+      letter-spacing: -0.02em;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: left;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(99, 91, 255, 0.3);
+      border-radius: 10px;
+      font-weight: 700;
+      color: var(--accent-light);
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* USE CASES */
+    .usecases {
+      padding: 100px 0;
+    }
+    .usecases h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .usecases > .container > p {
+      color: var(--text-muted);
+      margin-bottom: 48px;
+      font-size: 1.05rem;
+    }
+    .uc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .uc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: border-color 0.2s;
+    }
+    .uc-card:hover { border-color: var(--accent); }
+    .uc-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .uc-tag.local { background: rgba(48, 209, 88, 0.12); color: var(--green); }
+    .uc-tag.saas { background: rgba(99, 91, 255, 0.12); color: var(--accent-light); }
+    .uc-tag.lead { background: rgba(255, 159, 10, 0.12); color: var(--orange); }
+    .uc-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .uc-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .uc-result {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* CTA / FORM */
+    .cta-section {
+      padding: 100px 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .cta-section .container {
+      max-width: 640px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .cta-section > .container > p {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1.05rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: -10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    select { cursor: pointer; }
+    select option { background: var(--surface-2); }
+    button[type="submit"] {
+      padding: 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .form-success h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .form-success p {
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .stats .container { grid-template-columns: 1fr; gap: 24px; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .hero { padding: 130px 0 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#" class="logo">signup<span>funnel</span></a>
+    <a href="#contact" class="cta-sm">Get Your Free Audit</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Conversion-Focused Funnel Design</div>
+    <h1>Your traffic is expensive.<br><em>Stop wasting it.</em></h1>
+    <p>We build high-converting signup funnels, booking flows, and lead capture systems that turn your existing traffic into revenue.</p>
+    <a href="#contact" class="hero-cta">Get a Free Funnel Audit</a>
+    <p class="hero-sub">No commitment. We'll show you exactly where you're losing leads.</p>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div>
+      <div class="stat-num">3x</div>
+      <div class="stat-label">Average conversion rate improvement</div>
+    </div>
+    <div>
+      <div class="stat-num">14 days</div>
+      <div class="stat-label">From audit to live funnel</div>
+    </div>
+    <div>
+      <div class="stat-num">97%</div>
+      <div class="stat-label">Client retention rate</div>
+    </div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="container">
+    <div class="section-label">The Problem</div>
+    <h2>You're paying for clicks that never convert</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">&#x1F6AB;</div>
+        <h3>Generic website, no funnel</h3>
+        <p>Your site has 10 links, 3 menus, and zero focus. Visitors bounce because there's no clear path to action.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">&#x1F4B8;</div>
+        <h3>Burning ad spend</h3>
+        <p>You're spending on Google, Meta, or TikTok ads but sending traffic to a page that converts at 1-2%. That's 98 lost leads per 100 clicks.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">&#x23F3;</div>
+        <h3>DIY tools fall short</h3>
+        <p>You tried Wix, Squarespace, or Calendly embeds. They look okay but aren't built for conversion. No A/B testing, no optimization, no strategy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2>Three steps to more customers</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Free Funnel Audit</h3>
+        <p>We analyze your current signup flow, identify where leads are dropping off, and show you the opportunity with a recorded walkthrough.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Custom Funnel Build</h3>
+        <p>We design and build a conversion-optimized funnel tailored to your business &mdash; whether that's appointments, signups, or lead capture.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Launch &amp; Optimize</h3>
+        <p>We deploy your funnel, set up tracking, and continuously optimize based on real data. You get more leads from the same traffic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usecases">
+  <div class="container">
+    <div class="section-label">Use Cases</div>
+    <h2>Funnels that work across industries</h2>
+    <p>Every business has a different conversion goal. We build the right flow for yours.</p>
+    <div class="uc-grid">
+      <div class="uc-card">
+        <div class="uc-tag local">Local Services</div>
+        <h3>Appointment Booking Funnels</h3>
+        <p>Hair salons, med spas, dental offices, contractors. Replace your basic contact page with a frictionless booking flow that fills your calendar.</p>
+        <div class="uc-result">Typical result: 4x more bookings</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-tag saas">SaaS &amp; Apps</div>
+        <h3>User Signup Funnels</h3>
+        <p>Reduce signup friction, optimize onboarding steps, and turn free trials into paying users with data-driven funnel design.</p>
+        <div class="uc-result">Typical result: 2.5x signup rate</div>
+      </div>
+      <div class="uc-card">
+        <div class="uc-tag lead">Lead Generation</div>
+        <h3>Lead Capture Funnels</h3>
+        <p>Agencies, consultants, real estate. Capture qualified leads with multi-step forms, lead magnets, and automated follow-up sequences.</p>
+        <div class="uc-result">Typical result: 3x more qualified leads</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="section-label">Get Started</div>
+    <h2>Get your free funnel audit</h2>
+    <p>Tell us about your business and we'll show you exactly how to convert more of your existing traffic.</p>
+
+    <form id="lead-form" action="https://formspree.io/f/PLACEHOLDER" method="POST">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="jane@business.com" required>
+
+      <label for="business">Business Type</label>
+      <select id="business" name="business" required>
+        <option value="" disabled selected>Select your business type</option>
+        <option value="salon-spa">Salon / Spa / Med Spa</option>
+        <option value="healthcare">Healthcare / Dental</option>
+        <option value="saas">SaaS / App</option>
+        <option value="agency">Agency / Consulting</option>
+        <option value="ecommerce">E-commerce</option>
+        <option value="real-estate">Real Estate</option>
+        <option value="contractor">Contractor / Home Services</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="website">Current Website (optional)</label>
+      <input type="url" id="website" name="website" placeholder="https://yourbusiness.com">
+
+      <label for="message">What's your biggest challenge with getting signups?</label>
+      <textarea id="message" name="message" placeholder="e.g. We get traffic from ads but barely anyone books an appointment..."></textarea>
+
+      <button type="submit">Request My Free Audit</button>
+      <p class="form-note">We'll respond within 24 hours. No spam, ever.</p>
+    </form>
+
+    <div class="form-success" id="form-success">
+      <h3>We've got your request!</h3>
+      <p>We'll review your info and send your personalized funnel audit within 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    &copy; 2026 SignupFunnel. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('lead-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again or email us directly.');
+      }
+    } catch {
+      alert('Something went wrong. Please try again.');
+    }
+  });
+</script>
+
+</body>
+</html>
