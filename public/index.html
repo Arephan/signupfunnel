@@ -1,455 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CL5N6LTR3W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CL5N6LTR3W');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup Funnel</title>
+  <title>Signup Funnel Labs</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 4h20L14 14v6l-4 2v-8L2 4z'/%3E%3C/svg%3E">
+  <meta name="description" content="We build high-converting funnels that turn your traffic into revenue.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#000000">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --sans: 'Sora', -apple-system, sans-serif;
       --mono: 'JetBrains Mono', monospace;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
-      --bg: #000;
-      --bg2: #050507;
-      --text: #f0f0f5;
-      --muted: rgba(255,255,255,0.35);
-      --muted2: rgba(255,255,255,0.25);
-      --muted3: var(--muted3);
-      --lb: #000;
-      --vig: rgba(0,0,0,0.6);
-      --card-bg: rgba(255,255,255,0.02);
-      --card-border: rgba(255,255,255,0.06);
     }
-    /* Daytime palette */
-    .daytime {
-      --bg: #f5f3f0;
-      --bg2: #ebe8e4;
-      --text: #1a1a2e;
-      --muted: rgba(0,0,0,0.45);
-      --muted2: rgba(0,0,0,0.25);
-      --muted3: rgba(0,0,0,0.08);
-      --lb: #f5f3f0;
-      --vig: rgba(245,243,240,0.3);
-      --card-bg: rgba(0,0,0,0.03);
-      --card-border: rgba(0,0,0,0.08);
-    }
-    .daytime .submit-btn { background: #1a1a2e; color: #f5f3f0; }
-    .daytime select option { background: #ebe8e4; }
-    html { overflow-x: hidden; }
+    html { overflow-x: clip; scroll-behavior: smooth; }
     body {
       font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
+      background: #0a0a0f;
+      color: #f0f0f5;
+      overflow-x: clip;
       -webkit-font-smoothing: antialiased;
-      transition: background 0.6s, color 0.6s;
+    }
+    /* ═══ LIGHT MODE ═══ */
+    body.light {
+      background: #f7f6f3;
+      color: #1a1a2e;
+    }
+    body.light .gradient-bg {
+      background: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.12), transparent 50%),
+                  radial-gradient(ellipse at 80% 20%, rgba(16,185,129,0.1), transparent 50%),
+                  radial-gradient(ellipse at 50% 80%, rgba(59,130,246,0.08), transparent 50%),
+                  #f7f6f3;
+      background-size: 200% 200%;
+      animation: gradShift 20s ease infinite;
+    }
+    body.light .hero-p,
+    body.light .sp-content p,
+    body.light .pp-content p,
+    body.light .stat-label,
+    body.light .form-section > p,
+    body.light .counter-label { color: rgba(0,0,0,0.4); }
+    body.light .btn-primary { background: #1a1a2e; color: #f7f6f3; }
+    body.light .btn-primary:hover { box-shadow: 0 0 50px rgba(0,0,0,0.1); }
+    body.light .btn-secondary { border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.5); }
+    body.light .btn-secondary:hover { border-color: rgba(0,0,0,0.2); }
+    body.light nav.scrolled { background: rgba(247,246,243,0.7); }
+    body.light .logo { color: #1a1a2e; }
+    body.light .nav-cta { color: #1a1a2e; border-color: rgba(0,0,0,0.1); }
+    body.light .nav-cta:hover { background: rgba(0,0,0,0.03); }
+    body.light .form-card { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.06); }
+    body.light input, body.light select, body.light textarea {
+      background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); color: #1a1a2e;
+    }
+    body.light input::placeholder, body.light textarea::placeholder { color: rgba(0,0,0,0.2); }
+    body.light select option { background: #f0eeeb; }
+    body.light .submit-btn { background: #1a1a2e; color: #f7f6f3; }
+    body.light .submit-btn:hover { box-shadow: 0 0 40px rgba(0,0,0,0.08); }
+    body.light .form-fine { color: rgba(0,0,0,0.15); }
+    body.light .pp-content { opacity: 0.12; }
+    body.light .pp-content.active { opacity: 1; }
+    body.light .pp-content h3 { color: #1a1a2e; }
+    body.light .psd-num { opacity: 0.04; }
+    body.light .psd-num.s1, body.light .psd-num.s2, body.light .psd-num.s3 { opacity: 0.08; }
+    body.light footer { color: rgba(0,0,0,0.1); }
+    body.light .process-header p { color: rgba(0,0,0,0.35); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
     }
 
-    /* ═══ PROGRESS BAR ═══ */
-    .progress {
-      position: fixed; top: 0; left: 0; z-index: 200;
-      height: 2px; background: rgba(139,92,246,0.8);
-      width: 0%; transition: width 0.1s linear;
+    /* ═══ AMBIENT GRADIENT ═══ */
+    .gradient-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.15), transparent 50%),
+                  radial-gradient(ellipse at 80% 20%, rgba(16,185,129,0.1), transparent 50%),
+                  radial-gradient(ellipse at 50% 80%, rgba(59,130,246,0.08), transparent 50%),
+                  #0a0a0f;
+      background-size: 200% 200%;
+      animation: gradShift 20s ease infinite;
+    }
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% 50%; }
+      33% { background-position: 100% 0%; }
+      66% { background-position: 50% 100%; }
     }
 
-    /* ═══ LETTERBOX ═══ */
-    .letterbox-top, .letterbox-bot {
-      position: fixed; left: 0; right: 0; z-index: 150;
-      background: var(--lb); pointer-events: none;
-      transition: background 0.6s;
-      height: clamp(40px, 6vh, 70px);
+    /* ═══ GLOBAL REVEAL ═══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
     }
-    .letterbox-top { top: 0; }
-    .letterbox-bot { bottom: 0; }
+    .reveal.vis { opacity: 1; transform: none; }
+    .r1 { transition-delay: 0.1s; }
+    .r2 { transition-delay: 0.2s; }
+    .r3 { transition-delay: 0.3s; }
+    .r4 { transition-delay: 0.4s; }
 
-    /* ═══ VIGNETTE ═══ */
-    .vignette {
-      position: fixed; inset: 0; z-index: 100;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, transparent 50%, var(--vig) 100%);
-      transition: background 0.6s;
+    /* ═══ CONTENT WRAPPER ═══ */
+    .page { position: relative; z-index: 1; }
+
+    /* ═══ NAV ═══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px clamp(24px, 5vw, 64px);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(20px) saturate(1.6);
+    }
+    .logo {
+      font-weight: 600; font-size: 0.95rem;
+      color: #fff;
+      text-decoration: none; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-icon {
+      width: 18px; height: 18px; flex-shrink: 0;
+    }
+    .nav-cta {
+      font-size: 0.8rem; font-weight: 600;
+      color: #fff; text-decoration: none;
+      padding: 8px 22px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .nav-cta:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.25); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 1s 0.2s var(--ease) forwards;
+    }
+    .hero-p {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: rgba(255,255,255,0.4);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s var(--ease) forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 14px; justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.7s var(--ease) forwards;
+    }
+    .btn-primary {
+      padding: 16px 40px;
+      background: #fff; color: #000;
+      border-radius: 100px; text-decoration: none;
+      font-weight: 700; font-size: 0.95rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+    }
+    .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 50px rgba(255,255,255,0.1); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary svg { width: 16px; height: 16px; }
+    .btn-secondary {
+      padding: 16px 40px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      border-radius: 100px; text-decoration: none;
+      font-weight: 600; font-size: 0.95rem;
+      transition: transform 0.3s var(--ease), border-color 0.3s;
+    }
+    .btn-secondary:hover { transform: scale(1.03); border-color: rgba(255,255,255,0.25); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
     }
 
-    /* ═══ NAV (hidden by default) ═══ */
-    .nav {
-      position: fixed; top: clamp(40px, 6vh, 70px); left: 0; right: 0; z-index: 160;
-      padding: 12px clamp(32px, 5vw, 72px) 0;
-      display: flex; justify-content: space-between; align-items: center;
-      opacity: 0; transition: opacity 0.6s;
-      pointer-events: none;
-    }
-    .nav.show { opacity: 1; pointer-events: auto; }
-    .nav .logo {
-      font-family: var(--sans); font-weight: 700;
-      font-size: 1rem; color: var(--text); text-decoration: none;
-      letter-spacing: -0.03em; opacity: 0.5;
-    }
-    .nav .skip {
-      font-size: 0.75rem; color: var(--muted);
-      text-decoration: none; border: 1px solid var(--card-border);
-      padding: 8px 20px; border-radius: 100px;
-      transition: color 0.3s, border-color 0.3s;
-    }
-    .nav .skip:hover { color: var(--text); border-color: var(--muted); }
 
-    /* ═══ SCENES ═══ */
-    .scene {
+
+    /* ═══ STORY SECTION (sticky fade) ═══ */
+    .story {
       position: relative;
+      height: 300vh;
+    }
+    .story-sticky {
+      position: sticky;
+      top: 0;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      padding: clamp(24px, 5vw, 64px);
     }
-    .scene-inner {
-      text-align: center;
-      padding: clamp(60px, 8vh, 90px) 32px;
-      max-width: 1100px;
+    .story-panels {
+      position: relative;
+      max-width: 700px;
       width: 100%;
+      min-height: 200px;
     }
-
-    /* Scene transition overlay */
-    .scene::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: var(--bg);
+    .story-panel {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      transform: translateY(-50%) translateY(16px);
       opacity: 0;
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
       pointer-events: none;
-      z-index: 2;
     }
-
-    /* ═══ SCENE 1: COLD OPEN — 100 dots ═══ */
-    .dot-grid {
-      display: flex; flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      max-width: 340px;
-      margin: 0 auto 48px;
-      opacity: 0;
-      transition: opacity 1s var(--ease);
+    .story-panel.sp-active {
+      opacity: 1;
+      transform: translateY(-50%);
+      pointer-events: auto;
     }
-    .dot-grid.show { opacity: 1; }
-    .dot-grid .d {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--muted);
-      transition: background 1.2s var(--ease), opacity 1.2s var(--ease), transform 1.2s var(--ease);
+    .sp-content {
+      text-align: center;
     }
-    .dot-grid.lost .d { opacity: 0.08; transform: scale(0.5); }
-    .dot-grid.lost .d.survivor {
-      opacity: 1; transform: scale(1.4);
-      background: #10b981;
-      box-shadow: 0 0 12px rgba(16,185,129,0.4);
-    }
-
-    .s1-line {
-      font-family: var(--sans);
-      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-      font-weight: 400;
-      color: var(--muted);
-      line-height: 1.8;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 1.2s var(--ease), transform 1.2s var(--ease);
-    }
-    .s1-line.show {
-      opacity: 1; transform: none;
-    }
-    .s1-line em {
-      font-style: normal; color: #ef4444;
+    .sp-tag {
+      font-size: 0.68rem;
       font-weight: 600;
-    }
-
-    /* ═══ SCENE 2: THE NUMBER ═══ */
-    #scene2 { background: var(--bg); }
-    .big-counter {
-      font-family: var(--mono);
-      font-size: clamp(4rem, 12vw, 10rem);
-      font-weight: 500;
-      color: #ef4444;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      opacity: 0; transform: scale(0.9);
-      transition: opacity 1.5s var(--ease), transform 1.5s var(--ease);
-    }
-    .big-counter.show { opacity: 1; transform: none; }
-    .counter-sub {
-      margin-top: 20px;
-      font-size: clamp(0.8rem, 1.2vw, 1rem);
-      color: var(--muted2);
       text-transform: uppercase;
-      letter-spacing: 0.2em;
-      opacity: 0; transition: opacity 1s 0.5s var(--ease);
-    }
-    .counter-sub.show { opacity: 1; }
-
-    /* ═══ SCENE 3: THE PROBLEM + CONVERSION BAR ═══ */
-    .conv-bar {
-      width: min(400px, 70vw);
-      height: 4px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 4px;
-      margin: 0 auto 48px;
-      position: relative; z-index: 1;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 1s 0.5s var(--ease);
-    }
-    .conv-bar.show { opacity: 1; }
-    .conv-bar-fill {
-      height: 100%; width: 0%;
-      background: #ef4444;
-      border-radius: 4px;
-      transition: width 2s 0.8s var(--ease);
-    }
-    .conv-bar.show .conv-bar-fill { width: 2%; }
-    .conv-bar-labels {
-      display: flex; justify-content: space-between;
-      margin-top: 10px;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted2);
-    }
-    .conv-bar-labels .cl-red { color: #ef4444; }
-
-    #scene3 { background: var(--bg); }
-    .problem-rate {
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(8rem, 22vw, 18rem);
-      line-height: 0.85;
-      color: rgba(239,68,68,0.15);
-      letter-spacing: -0.06em;
-      position: absolute; z-index: 0;
-      opacity: 0; transform: scale(1.1);
-      transition: opacity 2s var(--ease), transform 4s var(--ease);
-    }
-    .problem-rate.show { opacity: 1; transform: scale(1); }
-    .problem-text {
-      position: relative; z-index: 1;
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(1.8rem, 3.5vw, 3rem);
-      line-height: 1.3;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 1s 0.3s var(--ease), transform 1s 0.3s var(--ease);
-    }
-    .problem-text.show { opacity: 1; transform: none; }
-    .problem-text span { color: #ef4444; }
-
-    /* ═══ SCENE 4: THE TURN ═══ */
-    #scene4 { background: var(--bg); }
-    .turn-text {
-      font-family: var(--sans);
-      font-size: clamp(1.1rem, 2vw, 1.5rem);
-      color: var(--muted);
-      font-weight: 400;
-      opacity: 0; transition: opacity 1.5s var(--ease);
-    }
-    .turn-text.show { opacity: 1; }
-
-    /* ═══ SCENE 5: THE REVEAL + FLOW LINE ═══ */
-    .flow-line {
-      width: 2px; height: 0;
-      margin: 0 auto 40px;
-      background: linear-gradient(to bottom, #8b5cf6, #10b981);
-      border-radius: 2px;
-      transition: height 1.8s var(--ease);
-    }
-    .flow-line.show { height: 80px; }
-    .flow-dot-top, .flow-dot-bot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      margin: 0 auto;
-      opacity: 0;
-      transition: opacity 0.8s var(--ease);
-    }
-    .flow-dot-top {
-      background: #8b5cf6;
-      margin-bottom: -4px;
-      position: relative; z-index: 1;
-    }
-    .flow-dot-bot {
-      background: #10b981;
-      margin-top: -4px;
-      box-shadow: 0 0 12px rgba(16,185,129,0.4);
-    }
-    .flow-dot-top.show, .flow-dot-bot.show { opacity: 1; }
-
-    #scene5 {
-      background: var(--bg);
-    }
-    .reveal-h1 {
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(4rem, 10vw, 9rem);
-      font-weight: 400;
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      opacity: 0; transform: scale(0.85);
-      transition: opacity 1.2s var(--ease), transform 1.8s var(--ease);
-    }
-    .reveal-h1.show { opacity: 1; transform: none; }
-    .reveal-h1 .grad {
-      background: linear-gradient(135deg, #8b5cf6, #10b981);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      font-style: italic;
-    }
-    .reveal-sub {
-      margin-top: 32px;
-      font-size: clamp(0.9rem, 1.5vw, 1.15rem);
-      color: var(--muted);
-      max-width: 480px; margin-left: auto; margin-right: auto;
-      line-height: 1.7;
-      opacity: 0; transform: translateY(16px);
-      transition: opacity 1s 0.4s var(--ease), transform 1s 0.4s var(--ease);
-    }
-    .reveal-sub.show { opacity: 1; transform: none; }
-    .reveal-brand {
-      margin-top: 48px;
-      font-family: var(--sans); font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(139,92,246,0.6);
-      opacity: 0; transition: opacity 1s 0.8s var(--ease);
-    }
-    .reveal-brand.show { opacity: 1; }
-
-    /* ═══ SCENE 6: THE PROOF ═══ */
-    #scene6 { background: var(--bg2); }
-    .proof-grid {
-      display: flex; gap: clamp(32px, 6vw, 80px);
-      justify-content: center; align-items: baseline;
-    }
-    .proof-item { text-align: center; }
-    .proof-num {
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      line-height: 1; letter-spacing: -0.04em;
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-    }
-    .proof-num.show { opacity: 1; transform: none; }
-    .p-purple { color: #8b5cf6; }
-    .p-green { color: #10b981; }
-    .p-gold { color: #f59e0b; }
-    .proof-label {
-      margin-top: 8px;
-      font-size: clamp(0.7rem, 1vw, 0.85rem);
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    /* ═══ SCENE 7: THE PROCESS ═══ */
-    #scene7 { background: var(--bg2); }
-    .step-card {
-      display: none;
-      flex-direction: column; align-items: center;
-    }
-    .step-card.active { display: flex; }
-    .step-num {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: rgba(139,92,246,0.5);
       letter-spacing: 0.15em;
-      margin-bottom: 24px;
-    }
-    .step-title {
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      line-height: 1.1; letter-spacing: -0.03em;
       margin-bottom: 16px;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
     }
-    .step-card.active .step-title { opacity: 1; transform: none; }
-    .step-desc {
-      font-size: clamp(0.9rem, 1.3vw, 1.1rem);
-      color: var(--muted);
-      max-width: 480px; line-height: 1.7;
-      opacity: 0; transition: opacity 0.8s 0.2s var(--ease);
+    .sp-tag.red { color: #ef4444; }
+    .sp-tag.green { color: #10b981; }
+    .sp-content h2 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
     }
-    .step-card.active .step-desc { opacity: 1; }
-    .step-dots {
-      display: flex; gap: 10px; margin-top: 48px;
+    .sp-content p {
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
     }
-    .step-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      cursor: pointer;
-      transition: background 0.3s;
+    .story-progress {
+      position: absolute;
+      bottom: clamp(24px, 4vw, 48px);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
     }
-    .step-dot.on { background: rgba(139,92,246,0.6); }
+    .story-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.4s, transform 0.4s;
+    }
+    .story-dot.active {
+      background: rgba(255,255,255,0.6);
+      transform: scale(1.3);
+    }
+    body.light .story-dot { background: rgba(0,0,0,0.1); }
+    body.light .story-dot.active { background: rgba(0,0,0,0.5); }
 
-    /* Process auto-advance timer bar */
-    .step-timer {
-      width: 60px; height: 2px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 2px;
-      margin-top: 20px;
-      overflow: hidden;
+
+
+    /* ═══ PROCESS: sticky visual + scroll panels ═══ */
+    .process {
+      position: relative;
     }
-    .step-timer-fill {
-      height: 100%; width: 0%;
-      background: rgba(139,92,246,0.4);
-      border-radius: 2px;
+    .process-header {
+      text-align: center;
+      padding: clamp(60px, 8vw, 100px) clamp(24px, 5vw, 64px) 0;
     }
-    .step-timer-fill.running {
-      animation: timerFill 4s linear forwards;
+    .process-header h2 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
-    @keyframes timerFill {
-      from { width: 0%; }
-      to { width: 100%; }
+    .process-header p {
+      color: rgba(255,255,255,0.35);
+      margin-top: 12px;
+      font-size: 1rem;
     }
 
-    /* ═══ SCENE 8: THE ASK ═══ */
-    #scene8 {
-      background: var(--bg2);
-      height: auto; min-height: 100vh;
-      padding-bottom: clamp(60px, 8vh, 100px);
+    .process-wrap {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    .ask-header {
-      margin-bottom: 48px;
+    .process-sticky {
+      position: sticky;
+      top: 0;
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      align-self: start;
     }
-    .ask-header h2 {
-      font-family: var(--sans); font-weight: 800;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.1; letter-spacing: -0.03em;
-      margin-bottom: 12px;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    .process-step-display {
+      text-align: center;
     }
-    .ask-header h2.show { opacity: 1; transform: none; }
-    .ask-header p {
-      font-size: 0.95rem; color: var(--muted);
-      opacity: 0; transition: opacity 0.8s 0.2s var(--ease);
+    .psd-num {
+      font-family: var(--sans);
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 700;
+      line-height: 1;
+      opacity: 0.06;
+      transition: color 0.5s;
+      margin-bottom: 16px;
     }
-    .ask-header p.show { opacity: 1; }
+    .psd-num.s1 { color: #8b5cf6; opacity: 0.15; }
+    .psd-num.s2 { color: #10b981; opacity: 0.15; }
+    .psd-num.s3 { color: #f59e0b; opacity: 0.15; }
+    .psd-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      transition: opacity 0.4s;
+    }
 
-    .form-wrap {
-      max-width: 520px; margin: 0 auto;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: clamp(32px, 4vw, 48px);
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 1s 0.3s var(--ease), transform 1s 0.3s var(--ease);
+    .process-fade-mobile { display: none; }
+    .process-panels { padding: 0 clamp(24px, 4vw, 48px); }
+    .process-panel {
+      height: 80vh;
+      display: flex;
+      align-items: center;
     }
-    .form-wrap.show { opacity: 1; transform: none; }
+    .pp-content {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .pp-content.active {
+      opacity: 1;
+      transform: none;
+    }
+    .pp-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .pp-content p {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+      max-width: 400px;
+    }
+
+    /* ═══ FORM SECTION ═══ */
+    .form-section {
+      padding: clamp(60px, 8vw, 100px) clamp(24px, 5vw, 64px);
+      text-align: center;
+    }
+    .form-section h2 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .form-section > p {
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+    .form-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: clamp(28px, 4vw, 44px);
+      text-align: left;
+    }
     form { display: flex; flex-direction: column; gap: 16px; }
     label {
       font-size: 0.68rem; font-weight: 600;
-      color: var(--muted2);
+      color: rgba(255,255,255,0.25);
       text-transform: uppercase; letter-spacing: 0.1em;
       margin-bottom: -8px;
     }
     input, select, textarea {
       width: 100%; padding: 14px 16px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 12px;
       color: #f0f0f5;
       font-family: var(--sans); font-size: 0.9rem;
@@ -460,7 +413,7 @@
       border-color: rgba(139,92,246,0.3);
       box-shadow: 0 0 0 3px rgba(139,92,246,0.06);
     }
-    input::placeholder, textarea::placeholder { color: var(--muted3); }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.15); }
     textarea { resize: vertical; min-height: 64px; }
     select { cursor: pointer; }
     select option { background: #111; }
@@ -474,194 +427,279 @@
     }
     .submit-btn:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,255,255,0.06); }
     .submit-btn:active { transform: scale(0.97); }
-    .form-fine {
-      font-size: 0.7rem; color: var(--muted3); text-align: center;
-    }
-    .form-ok {
-      display: none; text-align: center; padding: 48px 20px;
-    }
-    .form-ok h4 {
-      font-family: var(--sans); font-weight: 800;
-      font-size: 1.6rem; margin-bottom: 8px;
-    }
-    .form-ok p { color: var(--muted); }
-
-    /* Trust items under form */
-    .trust-row {
-      display: flex; align-items: center; gap: 10px;
-      justify-content: center;
-      margin-top: 24px;
-      font-size: 0.78rem; color: rgba(255,255,255,0.2);
-    }
-    .trust-row span { display: flex; align-items: center; gap: 5px; }
-    .trust-row svg { width: 12px; height: 12px; color: rgba(16,185,129,0.5); }
-    .trust-sep { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+    .form-fine { font-size: 0.7rem; color: rgba(255,255,255,0.15); text-align: center; }
+    .form-ok { display: none; text-align: center; padding: 48px 20px; }
+    .form-ok h4 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .form-ok p { color: rgba(255,255,255,0.35); }
 
     /* ═══ FOOTER ═══ */
     footer {
-      padding: 24px 32px;
+      padding: 32px clamp(24px, 5vw, 64px);
       text-align: center;
       font-size: 0.7rem;
-      color: var(--muted3);
+      color: rgba(255,255,255,0.1);
     }
 
     /* ═══ RESPONSIVE ═══ */
     @media (max-width: 768px) {
-      .proof-grid { flex-direction: column; gap: 40px; }
-      .letterbox-top, .letterbox-bot { height: 30px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      /* Process: hide desktop, show mobile fade */
+      .process-desktop { display: none !important; }
+      .process-fade-mobile { display: block !important; }
+      .process-fade-mobile {
+        position: relative;
+        height: 250vh;
+      }
+      .process-fade-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .process-fade-wrap {
+        position: relative;
+        min-height: 160px;
+        width: 100%;
+      }
+      .process-fade-panel {
+        position: absolute;
+        top: 50%; left: 0; right: 0;
+        transform: translateY(-50%) translateY(16px);
+        opacity: 0;
+        transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+        pointer-events: none;
+        text-align: center;
+        padding: 0 24px;
+      }
+      .process-fade-panel.pf-active {
+        opacity: 1;
+        transform: translateY(-50%);
+        pointer-events: auto;
+      }
+      .process-fade-panel .pf-step {
+        font-family: var(--sans);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: rgba(255,255,255,0.3);
+        margin-bottom: 12px;
+      }
+      body.light .process-fade-panel .pf-step { color: rgba(0,0,0,0.3); }
+      .process-fade-panel h3 {
+        font-size: clamp(1.6rem, 5vw, 2rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 12px;
+      }
+      .process-fade-panel p {
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.4);
+        line-height: 1.7;
+      }
+      .process-fade-dots {
+        position: absolute;
+        bottom: clamp(24px, 4vw, 48px);
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+      }
+      .process-fade-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        transition: background 0.4s, transform 0.4s;
+      }
+      .process-fade-dot.active {
+        background: rgba(255,255,255,0.6);
+        transform: scale(1.3);
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Cinematic framing -->
-<div class="progress" id="progress"></div>
-<div class="letterbox-top"></div>
-<div class="letterbox-bot"></div>
-<div class="vignette"></div>
+<div class="gradient-bg"></div>
 
-<!-- Nav (appears after reveal) -->
-<div class="nav" id="nav">
-  <a href="#" class="logo">signup funnel</a>
-  <a href="#scene8" class="skip">Skip to form &rarr;</a>
+<div class="page">
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 4h20L14 14v6l-4 2v-8L2 4z"/>
+    </svg>
+    Signup Funnel Labs
+  </a>
+  <a href="#contact" class="nav-cta">Free Audit</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>More leads.<br>Same traffic.</h1>
+    <p class="hero-p">We build high-converting funnels so you stop losing visitors.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Get a free audit
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </a>
+      <a href="#process" class="btn-secondary">How it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" id="problem">
+  <div class="story-sticky">
+    <div class="story-panels">
+      <div class="story-panel sp-active" data-index="0">
+        <div class="sp-content">
+          <div class="sp-tag red">The problem</div>
+          <h2>Your visitors have no idea what to do.</h2>
+          <p>Ten links. Three menus. No clear path. They came to convert, but your site gives them a maze instead of a funnel.</p>
+        </div>
+      </div>
+      <div class="story-panel" data-index="1">
+        <div class="sp-content">
+          <div class="sp-tag red">The cost</div>
+          <h2>98 out of 100 leave without converting.</h2>
+          <p>You're paying for every click. But your page converts at 2%. That means 98% of your ad spend produces nothing.</p>
+        </div>
+      </div>
+      <div class="story-panel" data-index="2">
+        <div class="sp-content">
+          <div class="sp-tag green">The fix</div>
+          <h2>One clear path. More conversions.</h2>
+          <p>We replace the maze with a funnel. Fast-loading pages. One focused action. Every element designed to convert.</p>
+        </div>
+      </div>
+      <div class="story-panel" data-index="3">
+        <div class="sp-content">
+          <div class="sp-tag green">The result</div>
+          <h2>Same traffic. 3x more leads.</h2>
+          <p>No extra ad spend. No new traffic source. Just a better funnel that turns the visitors you already have into customers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="story-progress">
+      <div class="story-dot active" data-dot="0"></div>
+      <div class="story-dot" data-dot="1"></div>
+      <div class="story-dot" data-dot="2"></div>
+      <div class="story-dot" data-dot="3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS: desktop sticky + mobile fade -->
+<section class="process" id="process">
+  <div class="process-header reveal">
+    <h2>How it works</h2>
+    <p>Three steps. Two weeks. That's it.</p>
+  </div>
+  <!-- Desktop layout -->
+  <div class="process-wrap process-desktop">
+    <div class="process-sticky">
+      <div class="process-step-display">
+        <div class="psd-num s1" id="psdNum">01</div>
+        <div class="psd-title" id="psdTitle">Free audit</div>
+      </div>
+    </div>
+    <div class="process-panels">
+      <div class="process-panel" data-step="1" data-title="Free audit" data-color="s1">
+        <div class="pp-content active" id="pp1">
+          <h3>We find the leaks</h3>
+          <p>We record a full teardown of your current flow: every leak, every friction point, every missed opportunity. It's yours to keep, no strings attached.</p>
+        </div>
+      </div>
+      <div class="process-panel" data-step="2" data-title="Custom build" data-color="s2">
+        <div class="pp-content" id="pp2">
+          <h3>We build the fix</h3>
+          <p>We design and build a conversion-optimized funnel tailored to your business. Fast loading, mobile-first, focused on one thing: getting visitors to take action.</p>
+        </div>
+      </div>
+      <div class="process-panel" data-step="3" data-title="Launch & optimize" data-color="s3">
+        <div class="pp-content" id="pp3">
+          <h3>We make it better every week</h3>
+          <p>We deploy your funnel, set up tracking, and continuously A/B test. Your conversion rate improves every week. More leads from the same traffic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile fade layout -->
+  <div class="process-fade-mobile" id="processFade">
+    <div class="process-fade-sticky">
+      <div class="process-fade-wrap">
+        <div class="process-fade-panel pf-active" data-pf="0">
+          <div class="pf-step">01 / Free audit</div>
+          <h3>We find the leaks</h3>
+          <p>We record a full teardown of your current flow: every leak, every friction point, every missed opportunity. It's yours to keep, no strings attached.</p>
+        </div>
+        <div class="process-fade-panel" data-pf="1">
+          <div class="pf-step">02 / Custom build</div>
+          <h3>We build the fix</h3>
+          <p>We design and build a conversion-optimized funnel tailored to your business. Fast loading, mobile-first, focused on one thing: getting visitors to take action.</p>
+        </div>
+        <div class="process-fade-panel" data-pf="2">
+          <div class="pf-step">03 / Launch & optimize</div>
+          <h3>We make it better every week</h3>
+          <p>We deploy your funnel, set up tracking, and continuously A/B test. Your conversion rate improves every week. More leads from the same traffic.</p>
+        </div>
+      </div>
+      <div class="process-fade-dots">
+        <div class="process-fade-dot active" data-pfd="0"></div>
+        <div class="process-fade-dot" data-pfd="1"></div>
+        <div class="process-fade-dot" data-pfd="2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="contact">
+  <h2 class="reveal">Let's fix your funnel</h2>
+  <p class="reveal r1">Free audit. No commitment.</p>
+  <div class="form-card reveal r2">
+    <form id="lead-form" action="https://formsubmit.co/hankimproduction@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New Signup Funnel Lead!">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" style="display:none">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="jane@business.com" required>
+      <label for="business">Business type</label>
+      <select id="business" name="business" required>
+        <option value="" disabled selected>Select type</option>
+        <option value="salon-spa">Salon / Spa</option>
+        <option value="healthcare">Healthcare / Dental</option>
+        <option value="saas">SaaS / App</option>
+        <option value="agency">Agency / Consulting</option>
+        <option value="ecommerce">E-commerce</option>
+        <option value="real-estate">Real Estate</option>
+        <option value="contractor">Home Services</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="website">Website <span style="opacity:0.4">(optional)</span></label>
+      <input type="text" id="website" name="website" placeholder="yourbusiness.com">
+      <button type="submit" class="submit-btn">Request Free Audit</button>
+      <p class="form-fine">No spam. Ever.</p>
+    </form>
+    <div class="form-ok" id="formOk">
+      <h4>Request received</h4>
+      <p>Your funnel audit is on the way.</p>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; 2026 Signup Funnel Labs</footer>
+
 </div>
-
-<!-- SCENE 1: COLD OPEN -->
-<section class="scene" id="scene1">
-  <div class="scene-inner">
-    <div class="dot-grid" id="dotGrid"></div>
-    <div class="s1-line" id="s1a">Every single day,</div>
-    <div class="s1-line" id="s1b">your website loses <em>98%</em> of its visitors.</div>
-    <div class="s1-line" id="s1c" style="margin-top: 32px; color: var(--muted2); font-size: clamp(0.9rem, 1.5vw, 1.1rem);">They come. They look. They leave.</div>
-  </div>
-</section>
-
-<!-- SCENE 2: THE NUMBER -->
-<section class="scene" id="scene2">
-  <div class="scene-inner">
-    <div class="big-counter" id="bigCounter">0</div>
-    <div class="counter-sub" id="counterSub">leads lost today</div>
-  </div>
-</section>
-
-<!-- SCENE 3: THE PROBLEM -->
-<section class="scene" id="scene3">
-  <div class="scene-inner">
-    <div class="conv-bar" id="convBar"><div class="conv-bar-fill"></div><div class="conv-bar-labels"><span class="cl-red">2% convert</span><span>98% gone</span></div></div>
-    <div class="problem-rate" id="probRate">2%</div>
-    <div class="problem-text" id="probText">That's your conversion rate.<br><span>Ninety-eight people out of a hundred</span><br>walk right past you.</div>
-  </div>
-</section>
-
-<!-- SCENE 4: THE TURN -->
-<section class="scene" id="scene4">
-  <div class="scene-inner">
-    <div class="turn-text" id="turnText">What if it didn't have to be this way?</div>
-  </div>
-</section>
-
-<!-- SCENE 5: THE REVEAL -->
-<section class="scene" id="scene5">
-  <div class="scene-inner">
-    <div class="flow-dot-top" id="flowTop"></div>
-    <div class="flow-line" id="flowLine"></div>
-    <div class="flow-dot-bot" id="flowBot"></div>
-    <div class="reveal-h1" id="revealH1">Traffic in.<br><span class="grad">Customers out.</span></div>
-    <div class="reveal-sub" id="revealSub">We build funnels that turn your clicks into bookings, signups, and revenue.</div>
-    <div class="reveal-brand" id="revealBrand">signup funnel</div>
-  </div>
-</section>
-
-<!-- SCENE 6: THE PROOF -->
-<section class="scene" id="scene6">
-  <div class="scene-inner">
-    <div class="proof-grid">
-      <div class="proof-item">
-        <div class="proof-num p-purple" id="pn1">3x</div>
-        <div class="proof-label">Conversion lift</div>
-      </div>
-      <div class="proof-item">
-        <div class="proof-num p-green" id="pn2">14d</div>
-        <div class="proof-label">Audit to launch</div>
-      </div>
-      <div class="proof-item">
-        <div class="proof-num p-gold" id="pn3">97%</div>
-        <div class="proof-label">Retention rate</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SCENE 7: THE PROCESS -->
-<section class="scene" id="scene7">
-  <div class="scene-inner">
-    <div class="step-card active" id="step1">
-      <div class="step-num">STEP 01</div>
-      <div class="step-title">Free funnel audit</div>
-      <div class="step-desc">We record a full teardown of your current flow — every leak, every friction point, every missed opportunity. Yours to keep.</div>
-    </div>
-    <div class="step-card" id="step2">
-      <div class="step-num">STEP 02</div>
-      <div class="step-title">Custom build</div>
-      <div class="step-desc">We design and build a conversion-optimized funnel tailored to your business — appointments, signups, leads.</div>
-    </div>
-    <div class="step-card" id="step3">
-      <div class="step-num">STEP 03</div>
-      <div class="step-title">Launch &amp; optimize</div>
-      <div class="step-desc">Deploy, track, and continuously A/B test. Your funnel gets better every week — more leads from the same traffic.</div>
-    </div>
-    <div class="step-dots">
-      <div class="step-dot on" data-step="1"></div>
-      <div class="step-dot" data-step="2"></div>
-      <div class="step-dot" data-step="3"></div>
-    </div>
-    <div class="step-timer"><div class="step-timer-fill" id="timerFill"></div></div>
-  </div>
-</section>
-
-<!-- SCENE 8: THE ASK -->
-<section class="scene" id="scene8">
-  <div class="scene-inner">
-    <div class="ask-header">
-      <h2 id="askH2">Let's fix your funnel</h2>
-      <p id="askP">Free audit. 24-hour response. Zero commitment.</p>
-    </div>
-    <div class="form-wrap" id="formWrap">
-      <form id="lead-form" action="https://formsubmit.co/hankimproduction@gmail.com" method="POST">
-        <input type="hidden" name="_subject" value="New SignupFunnel Lead!">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="text" name="_honey" style="display:none">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Jane Smith" required>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="jane@business.com" required>
-        <label for="business">Business type</label>
-        <select id="business" name="business" required>
-          <option value="" disabled selected>Select type</option>
-          <option value="salon-spa">Salon / Spa</option>
-          <option value="healthcare">Healthcare / Dental</option>
-          <option value="saas">SaaS / App</option>
-          <option value="agency">Agency / Consulting</option>
-          <option value="ecommerce">E-commerce</option>
-          <option value="real-estate">Real Estate</option>
-          <option value="contractor">Home Services</option>
-          <option value="other">Other</option>
-        </select>
-        <label for="website">Website <span style="opacity:0.4">(optional)</span></label>
-        <input type="text" id="website" name="website" placeholder="yourbusiness.com">
-        <button type="submit" class="submit-btn">Request Free Audit</button>
-        <p class="form-fine">No spam. Ever.</p>
-      </form>
-      <div class="form-ok" id="formOk">
-        <h4>Request received</h4>
-        <p>Your funnel audit is on the way.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>&copy; 2026 SignupFunnel</footer>
 
 <script>
 (function(){
@@ -670,158 +708,99 @@
   // ═══ TIME-BASED THEME ═══
   const params = new URLSearchParams(window.location.search);
   const hour = params.has('hour') ? parseInt(params.get('hour')) : new Date().getHours();
-  const isDaytime = hour >= 7 && hour < 19;
-  if (isDaytime) document.body.classList.add('daytime');
+  if (hour >= 7 && hour < 19) document.body.classList.add('light');
 
-  // ═══ GENERATE 100 DOTS ═══
-  const dotGrid = document.getElementById('dotGrid');
-  const survivors = new Set([42, 77]); // 2 out of 100
-  for (let i = 0; i < 100; i++) {
-    const d = document.createElement('div');
-    d.className = 'd' + (survivors.has(i) ? ' survivor' : '');
-    dotGrid.appendChild(d);
-  }
-
-  const progress = document.getElementById('progress');
+  // ═══ NAV SCROLL ═══
   const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    updateStory();
+    updateProcessStep();
+    updateProcessFade();
+  }, { passive: true });
 
-  // ═══ PROGRESS BAR ═══
-  function updateProgress() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progress.style.width = pct + '%';
+  // ═══ REVEAL ON SCROLL ═══
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ═══ STORY: sticky fade swap ═══
+  const storySection = document.querySelector('.story');
+  const storyPanels = document.querySelectorAll('.story-panel');
+  const storyDots = document.querySelectorAll('.story-dot');
+  let currentStoryIndex = 0;
+
+  function updateStory() {
+    if (!storySection) return;
+    const rect = storySection.getBoundingClientRect();
+    const scrollableHeight = storySection.offsetHeight - window.innerHeight;
+    const progress = Math.max(0, Math.min(1, -rect.top / scrollableHeight));
+    const index = Math.min(3, Math.floor(progress * 4));
+    if (index !== currentStoryIndex) {
+      storyPanels[currentStoryIndex].classList.remove('sp-active');
+      storyDots[currentStoryIndex].classList.remove('active');
+      currentStoryIndex = index;
+      storyPanels[currentStoryIndex].classList.add('sp-active');
+      storyDots[currentStoryIndex].classList.add('active');
+    }
   }
 
-  // ═══ SCENE VISIBILITY TRACKER ═══
-  const scenes = document.querySelectorAll('.scene');
-  const triggered = new Set();
 
-  function checkScenes() {
-    const scrollY = window.scrollY;
+  // ═══ PROCESS: sticky step indicator ═══
+  const psdNum = document.getElementById('psdNum');
+  const psdTitle = document.getElementById('psdTitle');
+  const processPanels = document.querySelectorAll('.process-panel');
+
+  function updateProcessStep() {
     const vh = window.innerHeight;
-
-    scenes.forEach(scene => {
-      const rect = scene.getBoundingClientRect();
-      const visible = rect.top < vh * 0.65 && rect.bottom > vh * 0.35;
-      if (visible && !triggered.has(scene.id)) {
-        triggered.add(scene.id);
-        triggerScene(scene.id);
+    let bestPanel = null;
+    let bestDist = Infinity;
+    processPanels.forEach(panel => {
+      const rect = panel.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const dist = Math.abs(center - vh / 2);
+      // Find the panel whose center is closest to viewport center
+      if (dist < bestDist && rect.bottom > 0 && rect.top < vh) {
+        bestDist = dist;
+        bestPanel = panel;
       }
     });
-
-    // Show nav after scene 5
-    nav.classList.toggle('show', scrollY > vh * 4);
-
-    updateProgress();
-  }
-
-  function triggerScene(id) {
-    switch(id) {
-      case 'scene1':
-        const dg = document.getElementById('dotGrid');
-        setTimeout(() => dg.classList.add('show'), 200);
-        setTimeout(() => document.getElementById('s1a').classList.add('show'), 800);
-        setTimeout(() => { dg.classList.add('lost'); document.getElementById('s1b').classList.add('show'); }, 2000);
-        setTimeout(() => document.getElementById('s1c').classList.add('show'), 3500);
-        break;
-      case 'scene2':
-        document.getElementById('bigCounter').classList.add('show');
-        document.getElementById('counterSub').classList.add('show');
-        startBigCounter();
-        break;
-      case 'scene3':
-        document.getElementById('convBar').classList.add('show');
-        document.getElementById('probRate').classList.add('show');
-        document.getElementById('probText').classList.add('show');
-        break;
-      case 'scene4':
-        document.getElementById('turnText').classList.add('show');
-        break;
-      case 'scene5':
-        document.getElementById('flowTop').classList.add('show');
-        setTimeout(() => document.getElementById('flowLine').classList.add('show'), 300);
-        setTimeout(() => document.getElementById('flowBot').classList.add('show'), 1200);
-        setTimeout(() => document.getElementById('revealH1').classList.add('show'), 800);
-        setTimeout(() => document.getElementById('revealSub').classList.add('show'), 1600);
-        setTimeout(() => document.getElementById('revealBrand').classList.add('show'), 2200);
-        break;
-      case 'scene6':
-        const nums = [document.getElementById('pn1'), document.getElementById('pn2'), document.getElementById('pn3')];
-        nums.forEach((n, i) => setTimeout(() => n.classList.add('show'), i * 250));
-        break;
-      case 'scene7':
-        startStepRotation();
-        break;
-      case 'scene8':
-        document.getElementById('askH2').classList.add('show');
-        document.getElementById('askP').classList.add('show');
-        document.getElementById('formWrap').classList.add('show');
-        break;
+    if (bestPanel) {
+      const step = bestPanel.dataset.step;
+      const title = bestPanel.dataset.title;
+      const color = bestPanel.dataset.color;
+      psdNum.textContent = '0' + step;
+      psdNum.className = 'psd-num ' + color;
+      psdTitle.textContent = title;
+      document.querySelectorAll('.pp-content').forEach(c => c.classList.remove('active'));
+      bestPanel.querySelector('.pp-content').classList.add('active');
     }
   }
 
-  // ═══ LIVE COUNTER ═══
-  const bigCounterEl = document.getElementById('bigCounter');
-  const midnight = new Date(); midnight.setHours(0,0,0,0);
-  const lps = 4200;
-  let counterRunning = false;
+  // ═══ PROCESS: mobile fade ═══
+  const processFadeEl = document.getElementById('processFade');
+  const pfPanels = document.querySelectorAll('.process-fade-panel');
+  const pfDots = document.querySelectorAll('.process-fade-dot');
+  let currentPfIndex = 0;
 
-  function startBigCounter() {
-    if (counterRunning) return;
-    counterRunning = true;
-    function tick() {
-      const elapsed = (Date.now() - midnight.getTime()) / 1000;
-      bigCounterEl.textContent = Math.floor(elapsed * lps).toLocaleString();
-      requestAnimationFrame(tick);
+  function updateProcessFade() {
+    if (!processFadeEl || window.innerWidth > 768) return;
+    const rect = processFadeEl.getBoundingClientRect();
+    const scrollable = processFadeEl.offsetHeight - window.innerHeight;
+    const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+    const index = Math.min(2, Math.floor(progress * 3));
+    if (index !== currentPfIndex) {
+      pfPanels[currentPfIndex].classList.remove('pf-active');
+      pfDots[currentPfIndex].classList.remove('active');
+      currentPfIndex = index;
+      pfPanels[currentPfIndex].classList.add('pf-active');
+      pfDots[currentPfIndex].classList.add('active');
     }
-    tick();
   }
 
-  // ═══ STEP ROTATION ═══
-  let currentStep = 1;
-  let stepInterval;
-  const timerFill = document.getElementById('timerFill');
-
-  function showStep(n) {
-    currentStep = n;
-    document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('on'));
-    const card = document.getElementById('step' + n);
-    card.classList.add('active');
-    document.querySelector(`.step-dot[data-step="${n}"]`).classList.add('on');
-
-    // Reset timer animation
-    timerFill.classList.remove('running');
-    void timerFill.offsetWidth; // force reflow
-    timerFill.classList.add('running');
-  }
-
-  function startStepRotation() {
-    showStep(1);
-    stepInterval = setInterval(() => {
-      const next = currentStep >= 3 ? 1 : currentStep + 1;
-      showStep(next);
-    }, 4000);
-  }
-
-  // Click dots to switch
-  document.querySelectorAll('.step-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-      clearInterval(stepInterval);
-      showStep(parseInt(dot.dataset.step));
-      stepInterval = setInterval(() => {
-        const next = currentStep >= 3 ? 1 : currentStep + 1;
-        showStep(next);
-      }, 4000);
-    });
-  });
-
-  // ═══ AUTO-TRIGGER SCENE 1 ON LOAD ═══
-  setTimeout(() => checkScenes(), 100);
-
-  // ═══ SCROLL LISTENER ═══
-  window.addEventListener('scroll', checkScenes, { passive: true });
 
   // ═══ FORM ═══
   document.getElementById('lead-form').addEventListener('submit', async e => {
@@ -832,11 +811,10 @@
     btn.disabled = true;
     try {
       const res = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
+        method: 'POST', body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
-      if (res.ok || res.status === 200 || res.status === 302) {
+      if (res.ok) {
         form.style.display = 'none';
         document.getElementById('formOk').style.display = 'block';
       } else {
@@ -845,7 +823,6 @@
         alert('Something went wrong. Please try again.');
       }
     } catch {
-      // FormSubmit may redirect — treat as success if we get here after submit
       form.style.display = 'none';
       document.getElementById('formOk').style.display = 'block';
     }
