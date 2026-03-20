@@ -122,7 +122,30 @@
       z-index: 2;
     }
 
-    /* ═══ SCENE 1: COLD OPEN ═══ */
+    /* ═══ SCENE 1: COLD OPEN — 100 dots ═══ */
+    .dot-grid {
+      display: flex; flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      max-width: 340px;
+      margin: 0 auto 48px;
+      opacity: 0;
+      transition: opacity 1s var(--ease);
+    }
+    .dot-grid.show { opacity: 1; }
+    .dot-grid .d {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 1.2s var(--ease), opacity 1.2s var(--ease), transform 1.2s var(--ease);
+    }
+    .dot-grid.lost .d { opacity: 0.08; transform: scale(0.5); }
+    .dot-grid.lost .d.survivor {
+      opacity: 1; transform: scale(1.4);
+      background: #10b981;
+      box-shadow: 0 0 12px rgba(16,185,129,0.4);
+    }
+
     .s1-line {
       font-family: var(--sans);
       font-size: clamp(1.2rem, 2.5vw, 1.8rem);
@@ -164,7 +187,35 @@
     }
     .counter-sub.show { opacity: 1; }
 
-    /* ═══ SCENE 3: THE PROBLEM ═══ */
+    /* ═══ SCENE 3: THE PROBLEM + CONVERSION BAR ═══ */
+    .conv-bar {
+      width: min(400px, 70vw);
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      margin: 0 auto 48px;
+      position: relative; z-index: 1;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s 0.5s var(--ease);
+    }
+    .conv-bar.show { opacity: 1; }
+    .conv-bar-fill {
+      height: 100%; width: 0%;
+      background: #ef4444;
+      border-radius: 4px;
+      transition: width 2s 0.8s var(--ease);
+    }
+    .conv-bar.show .conv-bar-fill { width: 2%; }
+    .conv-bar-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted2);
+    }
+    .conv-bar-labels .cl-red { color: #ef4444; }
+
     #scene3 { background: var(--bg); }
     .problem-rate {
       font-family: var(--sans); font-weight: 800;
@@ -199,7 +250,34 @@
     }
     .turn-text.show { opacity: 1; }
 
-    /* ═══ SCENE 5: THE REVEAL ═══ */
+    /* ═══ SCENE 5: THE REVEAL + FLOW LINE ═══ */
+    .flow-line {
+      width: 2px; height: 0;
+      margin: 0 auto 40px;
+      background: linear-gradient(to bottom, #8b5cf6, #10b981);
+      border-radius: 2px;
+      transition: height 1.8s var(--ease);
+    }
+    .flow-line.show { height: 80px; }
+    .flow-dot-top, .flow-dot-bot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin: 0 auto;
+      opacity: 0;
+      transition: opacity 0.8s var(--ease);
+    }
+    .flow-dot-top {
+      background: #8b5cf6;
+      margin-bottom: -4px;
+      position: relative; z-index: 1;
+    }
+    .flow-dot-bot {
+      background: #10b981;
+      margin-top: -4px;
+      box-shadow: 0 0 12px rgba(16,185,129,0.4);
+    }
+    .flow-dot-top.show, .flow-dot-bot.show { opacity: 1; }
+
     #scene5 {
       background: var(--bg);
     }
@@ -451,6 +529,7 @@
 <!-- SCENE 1: COLD OPEN -->
 <section class="scene" id="scene1">
   <div class="scene-inner">
+    <div class="dot-grid" id="dotGrid"></div>
     <div class="s1-line" id="s1a">Every single day,</div>
     <div class="s1-line" id="s1b">your website loses <em>98%</em> of its visitors.</div>
     <div class="s1-line" id="s1c" style="margin-top: 32px; color: var(--muted2); font-size: clamp(0.9rem, 1.5vw, 1.1rem);">They come. They look. They leave.</div>
@@ -468,6 +547,7 @@
 <!-- SCENE 3: THE PROBLEM -->
 <section class="scene" id="scene3">
   <div class="scene-inner">
+    <div class="conv-bar" id="convBar"><div class="conv-bar-fill"></div><div class="conv-bar-labels"><span class="cl-red">2% convert</span><span>98% gone</span></div></div>
     <div class="problem-rate" id="probRate">2%</div>
     <div class="problem-text" id="probText">That's your conversion rate.<br><span>Ninety-eight people out of a hundred</span><br>walk right past you.</div>
   </div>
@@ -483,6 +563,9 @@
 <!-- SCENE 5: THE REVEAL -->
 <section class="scene" id="scene5">
   <div class="scene-inner">
+    <div class="flow-dot-top" id="flowTop"></div>
+    <div class="flow-line" id="flowLine"></div>
+    <div class="flow-dot-bot" id="flowBot"></div>
     <div class="reveal-h1" id="revealH1">Traffic in.<br><span class="grad">Customers out.</span></div>
     <div class="reveal-sub" id="revealSub">We build funnels that turn your clicks into bookings, signups, and revenue.</div>
     <div class="reveal-brand" id="revealBrand">signup funnel</div>
@@ -590,6 +673,15 @@
   const isDaytime = hour >= 7 && hour < 19;
   if (isDaytime) document.body.classList.add('daytime');
 
+  // ═══ GENERATE 100 DOTS ═══
+  const dotGrid = document.getElementById('dotGrid');
+  const survivors = new Set([42, 77]); // 2 out of 100
+  for (let i = 0; i < 100; i++) {
+    const d = document.createElement('div');
+    d.className = 'd' + (survivors.has(i) ? ' survivor' : '');
+    dotGrid.appendChild(d);
+  }
+
   const progress = document.getElementById('progress');
   const nav = document.getElementById('nav');
 
@@ -627,9 +719,11 @@
   function triggerScene(id) {
     switch(id) {
       case 'scene1':
-        setTimeout(() => document.getElementById('s1a').classList.add('show'), 600);
-        setTimeout(() => document.getElementById('s1b').classList.add('show'), 1800);
-        setTimeout(() => document.getElementById('s1c').classList.add('show'), 3200);
+        const dg = document.getElementById('dotGrid');
+        setTimeout(() => dg.classList.add('show'), 200);
+        setTimeout(() => document.getElementById('s1a').classList.add('show'), 800);
+        setTimeout(() => { dg.classList.add('lost'); document.getElementById('s1b').classList.add('show'); }, 2000);
+        setTimeout(() => document.getElementById('s1c').classList.add('show'), 3500);
         break;
       case 'scene2':
         document.getElementById('bigCounter').classList.add('show');
@@ -637,6 +731,7 @@
         startBigCounter();
         break;
       case 'scene3':
+        document.getElementById('convBar').classList.add('show');
         document.getElementById('probRate').classList.add('show');
         document.getElementById('probText').classList.add('show');
         break;
@@ -644,9 +739,12 @@
         document.getElementById('turnText').classList.add('show');
         break;
       case 'scene5':
-        document.getElementById('revealH1').classList.add('show');
-        setTimeout(() => document.getElementById('revealSub').classList.add('show'), 600);
-        setTimeout(() => document.getElementById('revealBrand').classList.add('show'), 1200);
+        document.getElementById('flowTop').classList.add('show');
+        setTimeout(() => document.getElementById('flowLine').classList.add('show'), 300);
+        setTimeout(() => document.getElementById('flowBot').classList.add('show'), 1200);
+        setTimeout(() => document.getElementById('revealH1').classList.add('show'), 800);
+        setTimeout(() => document.getElementById('revealSub').classList.add('show'), 1600);
+        setTimeout(() => document.getElementById('revealBrand').classList.add('show'), 2200);
         break;
       case 'scene6':
         const nums = [document.getElementById('pn1'), document.getElementById('pn2'), document.getElementById('pn3')];
