@@ -4,592 +4,1137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SignupFunnel — Turn Traffic Into Customers</title>
-  <meta name="description" content="We build high-converting signup funnels, booking flows, and lead capture systems that turn your traffic into revenue.">
+  <meta name="description" content="High-converting signup funnels that turn your traffic into revenue.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0a0a0b;
-      --surface: #131316;
-      --surface-2: #1a1a1f;
-      --border: #2a2a30;
-      --text: #ededef;
-      --text-muted: #8a8a94;
-      --accent: #635bff;
-      --accent-light: #7c75ff;
-      --accent-glow: rgba(99, 91, 255, 0.15);
-      --green: #30d158;
-      --orange: #ff9f0a;
-      --radius: 12px;
+      --bg: #050508;
+      --s1: #0e0e16;
+      --s2: #141420;
+      --border: #1e1e30;
+      --text: #eaeaf2;
+      --dim: #6a6a82;
+      --violet: #8b5cf6;
+      --violet-dim: rgba(139,92,246,0.08);
+      --mint: #34d399;
+      --coral: #f87171;
+      --amber: #fbbf24;
+      --blue: #60a5fa;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
-
-    html { scroll-behavior: smooth; }
-
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg); color: var(--text);
+      overflow-x: hidden; -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* NAV */
+    /* ═══════ NAV ═══════ */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(10, 10, 11, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 0 clamp(24px, 5vw, 60px);
+      transition: background 0.5s, backdrop-filter 0.5s;
     }
-    nav .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
+    nav.scrolled {
+      background: rgba(5,5,8,0.65);
+      backdrop-filter: blur(30px) saturate(1.8);
     }
-    .logo {
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: var(--text);
-      text-decoration: none;
+    nav .n-inner {
+      max-width: 1400px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
     }
-    .logo span { color: var(--accent); }
-    nav a.cta-sm {
-      padding: 8px 20px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.875rem;
-      transition: background 0.2s;
+    .logo { font-weight: 800; font-size: 1.15rem; text-decoration: none; color: var(--text); letter-spacing: -0.03em; }
+    .logo b { color: var(--violet); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 0.82rem; color: var(--dim); text-decoration: none; font-weight: 500; transition: color 0.3s; letter-spacing: -0.01em; }
+    .nav-links a:hover { color: var(--text); }
+    .n-cta {
+      padding: 9px 24px; background: #fff; color: #000;
+      border-radius: 100px; font-weight: 700; font-size: 0.82rem;
+      text-decoration: none; transition: transform 0.3s var(--ease), opacity 0.3s;
     }
-    nav a.cta-sm:hover { background: var(--accent-light); }
+    .n-cta:hover { transform: scale(0.96); }
+    .n-cta:active { transform: scale(0.92); }
 
-    /* HERO */
+    /* ═══════ HERO: immersive full-screen funnel ═══════ */
+    .hero-wrap { height: 180vh; position: relative; }
     .hero {
-      padding: 160px 0 100px;
-      text-align: center;
+      position: sticky; top: 0; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
     }
-    .hero-badge {
-      display: inline-block;
-      padding: 6px 16px;
-      background: var(--accent-glow);
-      border: 1px solid rgba(99, 91, 255, 0.3);
-      border-radius: 100px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent-light);
+    .hero-canvas { position: absolute; inset: 0; z-index: 0; }
+
+    /* Giant centered funnel that IS the hero */
+    .mega-funnel {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(55vw, 480px); height: min(70vh, 580px);
+      z-index: 1;
+      opacity: 0.6;
+    }
+    .mega-funnel svg { width: 100%; height: 100%; }
+
+    /* Floating particle field */
+    .particles { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      opacity: 0;
+      animation: pFall var(--d) linear infinite;
+      animation-delay: var(--del);
+    }
+    @keyframes pFall {
+      0% { transform: translateY(calc(-20vh)) translateX(0) scale(1); opacity: 0; }
+      5% { opacity: var(--o); }
+      50% { transform: translateY(40vh) translateX(var(--drift)) scale(0.8); opacity: var(--o); }
+      95% { opacity: 0; }
+      100% { transform: translateY(100vh) translateX(var(--drift2)) scale(0.4); opacity: 0; }
+    }
+
+    .hero-overlay {
+      position: relative; z-index: 10;
+      text-align: center; padding: 0 24px;
+    }
+    .hero-tagline {
+      font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--violet); font-weight: 600;
       margin-bottom: 24px;
-      letter-spacing: 0.02em;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.8s 0.3s var(--ease) forwards;
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.1;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.06em;
+      opacity: 0;
+      animation: fadeUp 1s 0.1s var(--ease) forwards;
+    }
+    .hero h1 .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--violet), var(--mint));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-p {
+      margin: 28px auto 0; max-width: 420px;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      color: var(--dim); font-weight: 400; line-height: 1.6;
+      opacity: 0; animation: fadeUp 0.8s 0.5s var(--ease) forwards;
+    }
+    .hero-btns {
+      margin-top: 44px; display: flex; gap: 14px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.8s 0.7s var(--ease) forwards;
+    }
+    .btn-w {
+      padding: 16px 36px; background: #fff; color: #000;
+      border-radius: 100px; text-decoration: none;
+      font-weight: 700; font-size: 0.95rem;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .btn-w:hover { transform: scale(0.97); box-shadow: 0 0 60px rgba(255,255,255,0.08); }
+    .btn-w:active { transform: scale(0.93); }
+    .btn-w svg { width: 16px; height: 16px; }
+    .btn-o {
+      padding: 16px 36px; background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 100px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: transform 0.3s var(--ease), border-color 0.3s, background 0.3s;
+    }
+    .btn-o:hover { transform: scale(0.97); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.02); }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scroll indicator */
+    .scroll-cue {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      opacity: 0; animation: fadeUp 0.6s 1.2s var(--ease) forwards;
+    }
+    .scroll-cue span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--dim); }
+    .scroll-bar { width: 1px; height: 36px; background: var(--border); position: relative; overflow: hidden; border-radius: 1px; }
+    .scroll-bar::after {
+      content: ''; position: absolute; top: -100%; left: 0;
+      width: 1px; height: 100%; background: var(--violet);
+      animation: barPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes barPulse { 0%,100% { top: -100%; } 50% { top: 100%; } }
+
+    /* ═══════ SCROLL NUMBER STRIP ═══════ */
+    .num-strip {
+      padding: clamp(40px, 6vw, 80px) clamp(24px, 5vw, 60px);
+      position: relative; overflow: hidden;
+    }
+    .num-strip::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .num-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .num-block { text-align: center; flex: 1; }
+    .num-big {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700; letter-spacing: -0.05em;
+      line-height: 1;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .num-big.vis { opacity: 1; transform: none; }
+    .num-big .u { font-size: 55%; opacity: 0.35; margin-left: 2px; }
+    .num-label {
+      margin-top: 8px; font-size: 0.82rem; color: var(--dim); font-weight: 500;
+    }
+    .num-divider {
+      width: 1px; height: 60px; background: var(--border); flex-shrink: 0;
+      align-self: center;
+    }
+
+    /* ═══════ VISUAL STORY: the problem ═══════ */
+    .story { padding: clamp(60px, 8vw, 100px) 0; position: relative; }
+    .story-inner {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 60px);
+    }
+    .story-top {
+      display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 120px);
+      align-items: center; margin-bottom: clamp(48px, 6vw, 72px);
+    }
+    .story-text h2 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1.05; margin-bottom: 24px;
+    }
+    .story-text h2 em {
+      font-style: normal; color: var(--coral);
+    }
+    .story-text p {
+      font-size: 1rem; color: var(--dim); line-height: 1.75;
+      max-width: 440px;
+    }
+
+    /* Animated leaky funnel illustration */
+    .leak-vis {
+      position: relative; aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .leak-funnel { width: 80%; height: 80%; position: relative; }
+    .leak-funnel svg { width: 100%; height: 100%; }
+
+    /* Drip leaks from the sides */
+    .leak-drop {
+      position: absolute; width: 4px; border-radius: 4px;
+      animation: leakDrip var(--d, 2s) ease-in infinite;
+      animation-delay: var(--del, 0s);
+      opacity: 0;
+    }
+    @keyframes leakDrip {
+      0% { height: 0; opacity: 0; }
+      10% { opacity: 0.7; }
+      60% { height: var(--h, 30px); opacity: 0.7; }
+      100% { height: var(--h, 30px); opacity: 0; transform: translateY(40px); }
+    }
+
+    /* Bottom: 3 pain point blocks */
+    .pain-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      border-radius: 24px; overflow: hidden;
+    }
+    .pain-block {
+      background: var(--s2); padding: clamp(32px, 4vw, 56px);
+      position: relative; overflow: hidden;
+      transition: background 0.5s;
+    }
+    .pain-block:hover { background: #1a1a28; }
+    .pain-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 700; line-height: 1;
+      position: absolute; top: -10px; right: 16px;
+      opacity: 0.06; letter-spacing: -0.06em;
+      pointer-events: none;
+    }
+    .pain-block h3 {
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      font-weight: 700; margin-bottom: 10px;
+      letter-spacing: -0.02em; position: relative;
+    }
+    .pain-block p {
+      font-size: 0.88rem; color: var(--dim); line-height: 1.65;
+      position: relative; max-width: 320px;
+    }
+    .pain-accent {
+      width: 32px; height: 3px; border-radius: 3px;
       margin-bottom: 20px;
-      letter-spacing: -0.03em;
     }
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--accent), #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .pain-block:nth-child(1) .pain-accent { background: var(--coral); }
+    .pain-block:nth-child(2) .pain-accent { background: var(--amber); }
+    .pain-block:nth-child(3) .pain-accent { background: var(--blue); }
+
+    /* ═══════ HOW: full-width scroll-driven sequence ═══════ */
+    .sequence {
+      position: relative;
+      padding: clamp(60px, 8vw, 100px) 0;
     }
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      max-width: 560px;
-      margin: 0 auto 40px;
+    .seq-header {
+      text-align: center; padding: 0 24px;
+      margin-bottom: clamp(40px, 5vw, 64px);
     }
-    .hero-cta {
-      display: inline-block;
-      padding: 16px 40px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 40px rgba(99, 91, 255, 0.3);
+    .seq-header h2 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
     }
-    .hero-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 60px rgba(99, 91, 255, 0.4);
-    }
-    .hero-sub {
-      margin-top: 14px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    .seq-header p {
+      margin-top: 16px; color: var(--dim); font-size: 1.05rem;
+      max-width: 460px; margin-left: auto; margin-right: auto;
     }
 
-    /* STATS BAR */
-    .stats {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    /* 3 big immersive step blocks */
+    .seq-steps {
+      max-width: 1000px; margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 60px);
+      display: flex; flex-direction: column; gap: clamp(24px, 4vw, 48px);
     }
-    .stats .container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--accent-light);
-      letter-spacing: -0.02em;
-    }
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* PROBLEM */
-    .problem {
-      padding: 100px 0;
-    }
-    .section-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .problem h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 40px;
-      letter-spacing: -0.02em;
-    }
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .problem-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-    .problem-card .icon {
-      font-size: 1.5rem;
-      margin-bottom: 12px;
-    }
-    .problem-card h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .problem-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    /* HOW IT WORKS */
-    .how {
-      padding: 100px 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .how .container { text-align: center; }
-    .how h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 60px;
-      letter-spacing: -0.02em;
-    }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      text-align: left;
-    }
-    .step-num {
-      display: inline-flex;
+    .seq-step {
+      display: grid; grid-template-columns: 200px 1fr; gap: clamp(24px, 4vw, 56px);
       align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: var(--accent-glow);
-      border: 1px solid rgba(99, 91, 255, 0.3);
-      border-radius: 10px;
-      font-weight: 700;
-      color: var(--accent-light);
-      font-size: 1rem;
-      margin-bottom: 16px;
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: clamp(32px, 4vw, 56px);
+      position: relative; overflow: hidden;
+      transition: transform 0.6s var(--ease), border-color 0.6s;
     }
-    .step h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .step p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
+    .seq-step:hover {
+      transform: translateY(-6px);
+      border-color: rgba(139,92,246,0.2);
     }
 
-    /* USE CASES */
-    .usecases {
-      padding: 100px 0;
+    .seq-vis {
+      aspect-ratio: 1; position: relative;
+      display: flex; align-items: center; justify-content: center;
     }
-    .usecases h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
+    .seq-ring {
+      position: absolute; inset: 0;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 50%;
+      animation: seqSpin var(--sp, 25s) linear infinite;
     }
-    .usecases > .container > p {
-      color: var(--text-muted);
-      margin-bottom: 48px;
-      font-size: 1.05rem;
+    @keyframes seqSpin { to { transform: rotate(360deg); } }
+    .seq-ring::after {
+      content: ''; position: absolute; top: -4px; left: 50%;
+      width: 8px; height: 8px; border-radius: 50%;
+      transform: translateX(-50%);
     }
-    .uc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+    .seq-step:nth-child(1) .seq-ring::after { background: var(--violet); box-shadow: 0 0 12px var(--violet); }
+    .seq-step:nth-child(2) .seq-ring::after { background: var(--mint); box-shadow: 0 0 12px var(--mint); }
+    .seq-step:nth-child(3) .seq-ring::after { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+
+    .seq-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 2;
     }
-    .uc-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      transition: border-color 0.2s;
+    .seq-step:nth-child(1) .seq-icon { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.15); }
+    .seq-step:nth-child(2) .seq-icon { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.15); }
+    .seq-step:nth-child(3) .seq-icon { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.15); }
+    .seq-icon svg { width: 32px; height: 32px; }
+    .seq-step:nth-child(1) .seq-icon svg { color: var(--violet); }
+    .seq-step:nth-child(2) .seq-icon svg { color: var(--mint); }
+    .seq-step:nth-child(3) .seq-icon svg { color: var(--amber); }
+
+    .seq-num {
+      position: absolute; top: -8px; right: -8px;
+      width: 28px; height: 28px; border-radius: 50%;
+      font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 3;
     }
-    .uc-card:hover { border-color: var(--accent); }
-    .uc-tag {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-bottom: 16px;
+    .seq-step:nth-child(1) .seq-num { background: var(--violet); color: #fff; }
+    .seq-step:nth-child(2) .seq-num { background: var(--mint); color: #000; }
+    .seq-step:nth-child(3) .seq-num { background: var(--amber); color: #000; }
+
+    .seq-body h3 {
+      font-size: clamp(1.3rem, 2vw, 1.6rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 10px;
     }
-    .uc-tag.local { background: rgba(48, 209, 88, 0.12); color: var(--green); }
-    .uc-tag.saas { background: rgba(99, 91, 255, 0.12); color: var(--accent-light); }
-    .uc-tag.lead { background: rgba(255, 159, 10, 0.12); color: var(--orange); }
-    .uc-card h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 8px;
+    .seq-body p {
+      font-size: 0.92rem; color: var(--dim); line-height: 1.7;
+      max-width: 460px;
     }
-    .uc-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-    .uc-result {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--green);
+    /* Huge faded step number in background */
+    .seq-bg-num {
+      position: absolute; right: clamp(24px, 4vw, 56px); top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(8rem, 16vw, 14rem);
+      font-weight: 700; line-height: 1;
+      opacity: 0.04; pointer-events: none;
+      letter-spacing: -0.08em;
     }
 
-    /* CTA / FORM */
-    .cta-section {
-      padding: 100px 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
+    /* ═══════ INDUSTRIES: horizontal cards ═══════ */
+    .industries {
+      padding: clamp(60px, 8vw, 100px) 0;
+      overflow: hidden;
     }
-    .cta-section .container {
-      max-width: 640px;
-      text-align: center;
+    .ind-header {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 60px);
+      margin-bottom: clamp(48px, 6vw, 80px);
     }
-    .cta-section h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
+    .ind-header h2 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
     }
-    .cta-section > .container > p {
-      color: var(--text-muted);
-      margin-bottom: 40px;
-      font-size: 1.05rem;
+    .ind-header p {
+      margin-top: 14px; color: var(--dim); font-size: 1.05rem;
     }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      text-align: left;
+
+    .ind-scroll {
+      display: flex; gap: 20px;
+      padding: 0 clamp(24px, 5vw, 60px);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
     }
+    .ind-scroll::-webkit-scrollbar { display: none; }
+    .ind-scroll:active { cursor: grabbing; }
+
+    .ind-card {
+      flex: 0 0 clamp(300px, 30vw, 380px);
+      scroll-snap-align: start;
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 28px; overflow: hidden;
+      transition: transform 0.5s var(--ease), border-color 0.5s;
+    }
+    .ind-card:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.15); }
+
+    .ind-card-top {
+      height: 200px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .ind-card-top svg {
+      width: 72px; height: 72px; position: relative; z-index: 2;
+      transition: transform 0.5s var(--ease);
+    }
+    .ind-card:hover .ind-card-top svg { transform: scale(1.1); }
+    .ind-card-top::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 100px; background: linear-gradient(to top, var(--s1), transparent);
+      z-index: 1;
+    }
+    .ind-top-1 { background: radial-gradient(circle at 50% 70%, rgba(52,211,153,0.1), transparent 60%); }
+    .ind-top-1 svg { color: var(--mint); }
+    .ind-top-2 { background: radial-gradient(circle at 50% 70%, rgba(139,92,246,0.1), transparent 60%); }
+    .ind-top-2 svg { color: var(--violet); }
+    .ind-top-3 { background: radial-gradient(circle at 50% 70%, rgba(251,191,36,0.1), transparent 60%); }
+    .ind-top-3 svg { color: var(--amber); }
+    .ind-top-4 { background: radial-gradient(circle at 50% 70%, rgba(96,165,250,0.1), transparent 60%); }
+    .ind-top-4 svg { color: var(--blue); }
+
+    /* Animated dots in card background */
+    .ind-dots { position: absolute; inset: 0; }
+    .ind-dot {
+      position: absolute; border-radius: 50%;
+      animation: indFloat var(--fd, 5s) ease-in-out infinite alternate;
+    }
+    @keyframes indFloat {
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(var(--mx,8px), var(--my,-12px)) scale(var(--ms,0.8)); }
+    }
+
+    .ind-card-body { padding: 24px 28px 32px; }
+    .ind-label {
+      display: inline-block; padding: 4px 12px;
+      border-radius: 100px; font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .ind-label.g { background: rgba(52,211,153,0.1); color: var(--mint); }
+    .ind-label.v { background: rgba(139,92,246,0.1); color: var(--violet); }
+    .ind-label.a { background: rgba(251,191,36,0.1); color: var(--amber); }
+    .ind-label.b { background: rgba(96,165,250,0.1); color: var(--blue); }
+    .ind-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .ind-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.6; margin-bottom: 20px; }
+    .ind-metric {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 5px 14px; border-radius: 100px;
+    }
+    .ind-metric svg { width: 13px; height: 13px; }
+    .ind-metric.g { background: rgba(52,211,153,0.06); color: var(--mint); }
+    .ind-metric.v { background: rgba(139,92,246,0.06); color: var(--violet); }
+    .ind-metric.a { background: rgba(251,191,36,0.06); color: var(--amber); }
+    .ind-metric.b { background: rgba(96,165,250,0.06); color: var(--blue); }
+
+    /* ═══════ BIG CTA BANNER ═══════ */
+    .big-cta {
+      padding: clamp(60px, 8vw, 100px) clamp(24px, 5vw, 60px);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .big-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(139,92,246,0.06), transparent);
+    }
+    .big-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .big-cta h2 {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1.05; margin-bottom: 20px;
+    }
+    .big-cta h2 span {
+      background: linear-gradient(135deg, var(--violet), var(--mint));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .big-cta p {
+      color: var(--dim); font-size: 1.05rem; margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* ═══════ FORM SECTION ═══════ */
+    .form-section {
+      padding: 0 clamp(24px, 5vw, 60px) clamp(60px, 8vw, 100px);
+    }
+    .form-outer {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 36px; overflow: hidden;
+    }
+    .form-left {
+      padding: clamp(40px, 5vw, 72px);
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .form-left::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(139,92,246,0.05), transparent 60%);
+    }
+    .form-left h3 {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 16px;
+      position: relative;
+    }
+    .form-left > p {
+      font-size: 0.92rem; color: var(--dim); line-height: 1.7;
+      margin-bottom: 36px; position: relative;
+    }
+    .trust-items { display: flex; flex-direction: column; gap: 16px; position: relative; }
+    .trust-item {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 0.88rem; color: var(--dim);
+    }
+    .trust-check {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(52,211,153,0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .trust-check svg { width: 14px; height: 14px; color: var(--mint); }
+
+    .form-right {
+      padding: clamp(40px, 5vw, 72px);
+      border-left: 1px solid var(--border);
+    }
+    form { display: flex; flex-direction: column; gap: 18px; }
     label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
+      font-size: 0.7rem; font-weight: 600; color: var(--dim);
+      text-transform: uppercase; letter-spacing: 0.08em;
       margin-bottom: -10px;
     }
     input, select, textarea {
-      width: 100%;
-      padding: 14px 16px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; padding: 14px 16px;
+      background: var(--s2); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text);
+      font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.3s, box-shadow 0.3s;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.06);
     }
-    textarea { resize: vertical; min-height: 100px; }
+    input::placeholder, textarea::placeholder { color: var(--dim); opacity: 0.4; }
+    textarea { resize: vertical; min-height: 64px; }
     select { cursor: pointer; }
-    select option { background: var(--surface-2); }
-    button[type="submit"] {
-      padding: 16px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+    select option { background: var(--s2); }
+    .submit-btn {
+      padding: 16px; background: #fff; color: #000;
+      border: none; border-radius: 12px;
+      font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 0.92rem;
+      cursor: pointer; transition: transform 0.3s var(--ease), box-shadow 0.3s;
     }
-    button[type="submit"]:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
-    }
-    .form-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
+    .submit-btn:hover { transform: scale(0.98); box-shadow: 0 0 40px rgba(255,255,255,0.06); }
+    .submit-btn:active { transform: scale(0.95); }
+    .form-note { font-size: 0.72rem; color: var(--dim); text-align: center; }
     .form-success {
-      display: none;
-      text-align: center;
-      padding: 40px 0;
+      display: none; text-align: center; padding: 60px 20px;
     }
-    .form-success h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .form-success p {
-      color: var(--text-muted);
-    }
+    .form-success svg { width: 48px; height: 48px; color: var(--mint); margin-bottom: 16px; }
+    .form-success h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .form-success p { color: var(--dim); }
 
-    /* FOOTER */
+    /* ═══════ FOOTER ═══════ */
     footer {
-      padding: 40px 0;
+      padding: 48px clamp(24px, 5vw, 60px);
       border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      text-align: center; font-size: 0.75rem; color: var(--dim);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .stats .container { grid-template-columns: 1fr; gap: 24px; }
-      .steps { grid-template-columns: 1fr; gap: 32px; }
-      .hero { padding: 130px 0 80px; }
+    /* ═══════ UNIVERSAL SCROLL REVEAL ═══════ */
+    .sr {
+      opacity: 0; transform: translateY(50px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    }
+    .sr.vis { opacity: 1; transform: none; }
+    .sr-d1 { transition-delay: 0.1s; }
+    .sr-d2 { transition-delay: 0.2s; }
+    .sr-d3 { transition-delay: 0.3s; }
+    .sr-d4 { transition-delay: 0.4s; }
+    .sr-scale {
+      opacity: 0; transform: scale(0.9);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    }
+    .sr-scale.vis { opacity: 1; transform: none; }
+
+    /* ═══════ NOISE OVERLAY ═══════ */
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ═══════ RESPONSIVE ═══════ */
+    @media (max-width: 900px) {
+      .story-top { grid-template-columns: 1fr; }
+      .leak-vis { max-width: 350px; margin: 0 auto; }
+      .pain-row { grid-template-columns: 1fr; }
+      .seq-step { grid-template-columns: 1fr; text-align: center; }
+      .seq-vis { max-width: 140px; margin: 0 auto; }
+      .seq-bg-num { display: none; }
+      .form-outer { grid-template-columns: 1fr; }
+      .form-right { border-left: none; border-top: 1px solid var(--border); }
+      .num-inner { flex-direction: column; gap: 32px; }
+      .num-divider { width: 60px; height: 1px; }
+      .nav-links a:not(.n-cta) { display: none; }
+      .ind-card { flex: 0 0 85vw; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="container">
-    <a href="#" class="logo">signup<span>funnel</span></a>
-    <a href="#contact" class="cta-sm">Get Your Free Audit</a>
+<!-- NAV -->
+<nav id="nav">
+  <div class="n-inner">
+    <a href="#" class="logo">signup<b>funnel</b></a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#how">Process</a>
+      <a href="#industries">Industries</a>
+      <a href="#contact" class="n-cta">Free Audit</a>
+    </div>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge">Conversion-Focused Funnel Design</div>
-    <h1>Your traffic is expensive.<br><em>Stop wasting it.</em></h1>
-    <p>We build high-converting signup funnels, booking flows, and lead capture systems that turn your existing traffic into revenue.</p>
-    <a href="#contact" class="hero-cta">Get a Free Funnel Audit</a>
-    <p class="hero-sub">No commitment. We'll show you exactly where you're losing leads.</p>
-  </div>
-</section>
+<!-- HERO -->
+<div class="hero-wrap">
+  <section class="hero">
+    <div class="hero-canvas">
+      <div class="particles" id="particles"></div>
+    </div>
 
-<section class="stats">
-  <div class="container">
-    <div>
-      <div class="stat-num">3x</div>
-      <div class="stat-label">Average conversion rate improvement</div>
-    </div>
-    <div>
-      <div class="stat-num">14 days</div>
-      <div class="stat-label">From audit to live funnel</div>
-    </div>
-    <div>
-      <div class="stat-num">97%</div>
-      <div class="stat-label">Client retention rate</div>
-    </div>
-  </div>
-</section>
+    <!-- Giant funnel visualization -->
+    <div class="mega-funnel" id="megaFunnel">
+      <svg viewBox="0 0 500 600" fill="none" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="fg" x1="250" y1="40" x2="250" y2="520" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.25"/>
+            <stop offset="60%" stop-color="#6d28d9" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#34d399" stop-opacity="0.3"/>
+          </linearGradient>
+          <linearGradient id="fs" x1="250" y1="40" x2="250" y2="520" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#34d399" stop-opacity="0.6"/>
+          </linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="glow-sm"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
 
-<section class="problem">
-  <div class="container">
-    <div class="section-label">The Problem</div>
-    <h2>You're paying for clicks that never convert</h2>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="icon">&#x1F6AB;</div>
-        <h3>Generic website, no funnel</h3>
-        <p>Your site has 10 links, 3 menus, and zero focus. Visitors bounce because there's no clear path to action.</p>
-      </div>
-      <div class="problem-card">
-        <div class="icon">&#x1F4B8;</div>
-        <h3>Burning ad spend</h3>
-        <p>You're spending on Google, Meta, or TikTok ads but sending traffic to a page that converts at 1-2%. That's 98 lost leads per 100 clicks.</p>
-      </div>
-      <div class="problem-card">
-        <div class="icon">&#x23F3;</div>
-        <h3>DIY tools fall short</h3>
-        <p>You tried Wix, Squarespace, or Calendly embeds. They look okay but aren't built for conversion. No A/B testing, no optimization, no strategy.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- Funnel shape -->
+        <path d="M80 60 L420 60 L320 300 L290 520 L210 520 L180 300 Z"
+              fill="url(#fg)" stroke="url(#fs)" stroke-width="1" opacity="0.8"/>
 
-<section class="how">
-  <div class="container">
-    <div class="section-label">How It Works</div>
-    <h2>Three steps to more customers</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Free Funnel Audit</h3>
-        <p>We analyze your current signup flow, identify where leads are dropping off, and show you the opportunity with a recorded walkthrough.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Custom Funnel Build</h3>
-        <p>We design and build a conversion-optimized funnel tailored to your business &mdash; whether that's appointments, signups, or lead capture.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Launch &amp; Optimize</h3>
-        <p>We deploy your funnel, set up tracking, and continuously optimize based on real data. You get more leads from the same traffic.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- Tier lines with pulse -->
+        <line x1="120" y1="120" x2="380" y2="120" stroke="#8b5cf6" stroke-opacity="0.12" stroke-dasharray="6 4">
+          <animate attributeName="stroke-opacity" values="0.06;0.2;0.06" dur="3s" repeatCount="indefinite"/>
+        </line>
+        <line x1="160" y1="190" x2="340" y2="190" stroke="#8b5cf6" stroke-opacity="0.1" stroke-dasharray="6 4">
+          <animate attributeName="stroke-opacity" values="0.06;0.18;0.06" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </line>
+        <line x1="190" y1="270" x2="310" y2="270" stroke="#34d399" stroke-opacity="0.1" stroke-dasharray="6 4">
+          <animate attributeName="stroke-opacity" values="0.06;0.18;0.06" dur="3s" begin="1.6s" repeatCount="indefinite"/>
+        </line>
 
-<section class="usecases">
-  <div class="container">
-    <div class="section-label">Use Cases</div>
-    <h2>Funnels that work across industries</h2>
-    <p>Every business has a different conversion goal. We build the right flow for yours.</p>
-    <div class="uc-grid">
-      <div class="uc-card">
-        <div class="uc-tag local">Local Services</div>
-        <h3>Appointment Booking Funnels</h3>
-        <p>Hair salons, med spas, dental offices, contractors. Replace your basic contact page with a frictionless booking flow that fills your calendar.</p>
-        <div class="uc-result">Typical result: 4x more bookings</div>
-      </div>
-      <div class="uc-card">
-        <div class="uc-tag saas">SaaS &amp; Apps</div>
-        <h3>User Signup Funnels</h3>
-        <p>Reduce signup friction, optimize onboarding steps, and turn free trials into paying users with data-driven funnel design.</p>
-        <div class="uc-result">Typical result: 2.5x signup rate</div>
-      </div>
-      <div class="uc-card">
-        <div class="uc-tag lead">Lead Generation</div>
-        <h3>Lead Capture Funnels</h3>
-        <p>Agencies, consultants, real estate. Capture qualified leads with multi-step forms, lead magnets, and automated follow-up sequences.</p>
-        <div class="uc-result">Typical result: 3x more qualified leads</div>
+        <!-- Flowing particles through funnel -->
+        <circle r="5" fill="#f87171" filter="url(#glow-sm)">
+          <animateMotion dur="4s" repeatCount="indefinite" path="M140,10 Q250,80 250,180 T250,400"/>
+          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="5;4;3;2" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4.5" fill="#8b5cf6" filter="url(#glow-sm)">
+          <animateMotion dur="4.5s" repeatCount="indefinite" begin="0.8s" path="M360,10 Q250,90 250,200 T250,420"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="4.5;3.5;2.5;2" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="4" fill="#fbbf24" filter="url(#glow-sm)">
+          <animateMotion dur="3.8s" repeatCount="indefinite" begin="1.6s" path="M200,5 Q250,70 250,170 T250,380"/>
+          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="3.8s" begin="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="4;3;2.5;1.5" dur="3.8s" begin="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="3.5" fill="#60a5fa" filter="url(#glow-sm)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="2.4s" path="M320,8 Q250,100 250,210 T250,440"/>
+          <animate attributeName="opacity" values="0;0.7;0.7;0" dur="5s" begin="2.4s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="3.5;3;2;1.5" dur="5s" begin="2.4s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Output glow at bottom -->
+        <circle cx="250" cy="540" r="8" fill="#34d399" opacity="0.6" filter="url(#glow)">
+          <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- No labels — keep funnel clean behind headline -->
+      </svg>
+    </div>
+
+    <div class="hero-overlay">
+      <div class="hero-tagline">Conversion infrastructure</div>
+      <h1>Traffic in.<span class="line2">Customers out.</span></h1>
+      <p class="hero-p">Funnels that turn your clicks into bookings, signups, and revenue.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-w">
+          Get a free audit
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+        <a href="#how" class="btn-o">How it works</a>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="cta-section" id="contact">
-  <div class="container">
-    <div class="section-label">Get Started</div>
-    <h2>Get your free funnel audit</h2>
-    <p>Tell us about your business and we'll show you exactly how to convert more of your existing traffic.</p>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-bar"></div>
+    </div>
+  </section>
+</div>
 
-    <form id="lead-form" action="https://formspree.io/f/PLACEHOLDER" method="POST">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="jane@business.com" required>
-
-      <label for="business">Business Type</label>
-      <select id="business" name="business" required>
-        <option value="" disabled selected>Select your business type</option>
-        <option value="salon-spa">Salon / Spa / Med Spa</option>
-        <option value="healthcare">Healthcare / Dental</option>
-        <option value="saas">SaaS / App</option>
-        <option value="agency">Agency / Consulting</option>
-        <option value="ecommerce">E-commerce</option>
-        <option value="real-estate">Real Estate</option>
-        <option value="contractor">Contractor / Home Services</option>
-        <option value="other">Other</option>
-      </select>
-
-      <label for="website">Current Website (optional)</label>
-      <input type="url" id="website" name="website" placeholder="https://yourbusiness.com">
-
-      <label for="message">What's your biggest challenge with getting signups?</label>
-      <textarea id="message" name="message" placeholder="e.g. We get traffic from ads but barely anyone books an appointment..."></textarea>
-
-      <button type="submit">Request My Free Audit</button>
-      <p class="form-note">We'll respond within 24 hours. No spam, ever.</p>
-    </form>
-
-    <div class="form-success" id="form-success">
-      <h3>We've got your request!</h3>
-      <p>We'll review your info and send your personalized funnel audit within 24 hours.</p>
+<!-- NUMBER STRIP -->
+<section class="num-strip">
+  <div class="num-inner">
+    <div class="num-block">
+      <div class="num-big sr" data-count="3">0<span class="u">x</span></div>
+      <div class="num-label">Conversion lift</div>
+    </div>
+    <div class="num-divider"></div>
+    <div class="num-block">
+      <div class="num-big sr sr-d1" data-count="14">0<span class="u">days</span></div>
+      <div class="num-label">Audit to launch</div>
+    </div>
+    <div class="num-divider"></div>
+    <div class="num-block">
+      <div class="num-big sr sr-d2" data-count="97">0<span class="u">%</span></div>
+      <div class="num-label">Retention rate</div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    &copy; 2026 SignupFunnel. All rights reserved.
+<!-- THE PROBLEM -->
+<section class="story" id="problem">
+  <div class="story-inner">
+    <div class="story-top">
+      <div class="story-text sr">
+        <h2>Your funnel is <em>leaking</em> money</h2>
+        <p>For every 100 people who visit your site, 98 leave without converting. That's not a traffic problem — it's a funnel problem. And we fix funnels.</p>
+      </div>
+      <div class="leak-vis sr sr-d2">
+        <div class="leak-funnel">
+          <svg viewBox="0 0 400 450" fill="none">
+            <defs>
+              <linearGradient id="lf" x1="200" y1="30" x2="200" y2="420" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#f87171" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#f87171" stop-opacity="0.03"/>
+              </linearGradient>
+            </defs>
+            <path d="M60 40 L340 40 L260 260 L240 420 L160 420 L140 260 Z"
+                  fill="url(#lf)" stroke="#f87171" stroke-opacity="0.2" stroke-width="1"/>
+
+            <!-- Leak holes -->
+            <circle cx="110" cy="120" r="6" fill="#f87171" opacity="0.15">
+              <animate attributeName="opacity" values="0.1;0.3;0.1" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="290" cy="140" r="5" fill="#f87171" opacity="0.15">
+              <animate attributeName="opacity" values="0.1;0.3;0.1" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="140" cy="200" r="4.5" fill="#f87171" opacity="0.15">
+              <animate attributeName="opacity" values="0.1;0.3;0.1" dur="2s" begin="1.3s" repeatCount="indefinite"/>
+            </circle>
+
+            <!-- Leaking drops -->
+            <circle r="3" fill="#f87171" opacity="0.5">
+              <animateMotion dur="1.8s" repeatCount="indefinite" path="M110,126 L85,200"/>
+              <animate attributeName="opacity" values="0.5;0" dur="1.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="2.5" fill="#f87171" opacity="0.5">
+              <animateMotion dur="2s" repeatCount="indefinite" begin="0.5s" path="M290,146 L320,220"/>
+              <animate attributeName="opacity" values="0.5;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="2" fill="#f87171" opacity="0.5">
+              <animateMotion dur="1.5s" repeatCount="indefinite" begin="1s" path="M140,206 L110,270"/>
+              <animate attributeName="opacity" values="0.5;0" dur="1.5s" begin="1s" repeatCount="indefinite"/>
+            </circle>
+
+            <!-- Tiny output at bottom -->
+            <circle cx="200" cy="430" r="4" fill="#34d399" opacity="0.3">
+              <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+            </circle>
+
+            <text x="200" y="75" text-anchor="middle" fill="#55556a" font-family="Manrope" font-size="9" font-weight="600" letter-spacing="2">100 VISITORS</text>
+            <text x="200" y="395" text-anchor="middle" fill="#f87171" font-family="JetBrains Mono" font-size="14" font-weight="700" opacity="0.6">2 convert</text>
+          </svg>
+          <!-- Animated leak streams -->
+          <div class="leak-drop" style="left:22%;top:27%;background:var(--coral);--d:2.2s;--del:0s;--h:25px"></div>
+          <div class="leak-drop" style="right:20%;top:32%;background:var(--coral);--d:1.8s;--del:0.6s;--h:20px"></div>
+          <div class="leak-drop" style="left:30%;top:46%;background:var(--coral);--d:2s;--del:1.2s;--h:18px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pain-row">
+      <div class="pain-block sr">
+        <div class="pain-num">01</div>
+        <div class="pain-accent"></div>
+        <h3>No focused path</h3>
+        <p>10 links, 3 menus, zero direction. Visitors don't know what to do — so they leave.</p>
+      </div>
+      <div class="pain-block sr sr-d1">
+        <div class="pain-num">02</div>
+        <div class="pain-accent"></div>
+        <h3>Wasted ad spend</h3>
+        <p>You're paying per click, but sending traffic to a page that converts at 2%. That math doesn't work.</p>
+      </div>
+      <div class="pain-block sr sr-d2">
+        <div class="pain-num">03</div>
+        <div class="pain-accent"></div>
+        <h3>Template limits</h3>
+        <p>Wix and Squarespace aren't conversion tools. No testing, no strategy, no optimization.</p>
+      </div>
+    </div>
   </div>
-</footer>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sequence" id="how">
+  <div class="seq-header">
+    <h2 class="sr">How it works</h2>
+    <p class="sr sr-d1">Three steps from broken to converting.</p>
+  </div>
+  <div class="seq-steps">
+    <div class="seq-step sr">
+      <div class="seq-vis">
+        <div class="seq-ring" style="--sp:22s"></div>
+        <div class="seq-ring" style="inset:16px;--sp:18s;animation-direction:reverse"></div>
+        <div class="seq-icon">
+          <div class="seq-num">1</div>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        </div>
+      </div>
+      <div class="seq-body">
+        <h3>Free funnel audit</h3>
+        <p>We record a full teardown of your current flow — every leak, every friction point, every missed opportunity. Yours to keep, no strings attached.</p>
+      </div>
+      <div class="seq-bg-num">01</div>
+    </div>
+    <div class="seq-step sr sr-d1">
+      <div class="seq-vis">
+        <div class="seq-ring" style="--sp:20s"></div>
+        <div class="seq-ring" style="inset:16px;--sp:15s;animation-direction:reverse"></div>
+        <div class="seq-icon">
+          <div class="seq-num">2</div>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
+        </div>
+      </div>
+      <div class="seq-body">
+        <h3>Custom funnel build</h3>
+        <p>We design and build a conversion-optimized funnel for your specific business — appointments, signups, leads, whatever you need.</p>
+      </div>
+      <div class="seq-bg-num">02</div>
+    </div>
+    <div class="seq-step sr sr-d2">
+      <div class="seq-vis">
+        <div class="seq-ring" style="--sp:18s"></div>
+        <div class="seq-ring" style="inset:16px;--sp:13s;animation-direction:reverse"></div>
+        <div class="seq-icon">
+          <div class="seq-num">3</div>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.3"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/></svg>
+        </div>
+      </div>
+      <div class="seq-body">
+        <h3>Launch &amp; optimize</h3>
+        <p>We deploy, set up tracking, and continuously A/B test. Your funnel gets better every week — more leads from the same traffic.</p>
+      </div>
+      <div class="seq-bg-num">03</div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industries">
+  <div class="ind-header">
+    <h2 class="sr">Built for every business</h2>
+    <p class="sr sr-d1">Drag to explore industries we serve.</p>
+  </div>
+  <div class="ind-scroll" id="indScroll">
+    <div class="ind-card sr">
+      <div class="ind-card-top ind-top-1">
+        <div class="ind-dots">
+          <div class="ind-dot" style="width:5px;height:5px;background:var(--mint);opacity:0.2;top:30%;left:22%;--mx:10px;--my:-14px;--fd:4s"></div>
+          <div class="ind-dot" style="width:7px;height:7px;background:var(--mint);opacity:0.15;top:55%;left:68%;--mx:-8px;--my:10px;--fd:5s"></div>
+          <div class="ind-dot" style="width:4px;height:4px;background:var(--mint);opacity:0.25;top:42%;left:42%;--mx:12px;--my:-8px;--fd:3.5s"></div>
+        </div>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+      </div>
+      <div class="ind-card-body">
+        <span class="ind-label g">Local Services</span>
+        <h3>Booking Funnels</h3>
+        <p>Salons, spas, dental, contractors. Replace your contact page with a flow that fills your calendar.</p>
+        <div class="ind-metric g"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/></svg>4x bookings</div>
+      </div>
+    </div>
+    <div class="ind-card sr sr-d1">
+      <div class="ind-card-top ind-top-2">
+        <div class="ind-dots">
+          <div class="ind-dot" style="width:6px;height:6px;background:var(--violet);opacity:0.2;top:35%;left:28%;--mx:-10px;--my:12px;--fd:4.5s"></div>
+          <div class="ind-dot" style="width:4px;height:4px;background:var(--violet);opacity:0.2;top:50%;left:60%;--mx:8px;--my:-10px;--fd:3.8s"></div>
+        </div>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+      </div>
+      <div class="ind-card-body">
+        <span class="ind-label v">SaaS &amp; Apps</span>
+        <h3>Signup Funnels</h3>
+        <p>Reduce friction, nail the onboarding, turn free trials into paying users.</p>
+        <div class="ind-metric v"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/></svg>2.5x signups</div>
+      </div>
+    </div>
+    <div class="ind-card sr sr-d2">
+      <div class="ind-card-top ind-top-3">
+        <div class="ind-dots">
+          <div class="ind-dot" style="width:5px;height:5px;background:var(--amber);opacity:0.2;top:40%;left:35%;--mx:10px;--my:-10px;--fd:4.2s"></div>
+          <div class="ind-dot" style="width:7px;height:7px;background:var(--amber);opacity:0.15;top:55%;left:55%;--mx:-12px;--my:8px;--fd:5.2s"></div>
+        </div>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+      </div>
+      <div class="ind-card-body">
+        <span class="ind-label a">Lead Gen</span>
+        <h3>Capture Funnels</h3>
+        <p>Agencies, consultants, real estate. Multi-step forms with automated nurture sequences.</p>
+        <div class="ind-metric a"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/></svg>3x leads</div>
+      </div>
+    </div>
+    <div class="ind-card sr sr-d3">
+      <div class="ind-card-top ind-top-4">
+        <div class="ind-dots">
+          <div class="ind-dot" style="width:5px;height:5px;background:var(--blue);opacity:0.2;top:38%;left:30%;--mx:8px;--my:-12px;--fd:4.8s"></div>
+          <div class="ind-dot" style="width:6px;height:6px;background:var(--blue);opacity:0.15;top:52%;left:62%;--mx:-10px;--my:10px;--fd:4s"></div>
+        </div>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+      </div>
+      <div class="ind-card-body">
+        <span class="ind-label b">E-commerce</span>
+        <h3>Checkout Funnels</h3>
+        <p>Reduce cart abandonment with streamlined checkout flows and post-purchase upsells.</p>
+        <div class="ind-metric b"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/></svg>2x revenue</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG CTA + FORM -->
+<section class="big-cta" id="contact">
+  <div class="big-cta-inner">
+    <h2 class="sr">Stop losing leads.<br><span>Start converting.</span></h2>
+    <p class="sr sr-d1">Get a free, no-strings funnel audit. We'll record a full walkthrough of your current flow and show you exactly where you're leaking revenue.</p>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="form-outer sr-scale">
+    <div class="form-left">
+      <h3>Let's fix your funnel</h3>
+      <p>Tell us about your business. We'll do the rest.</p>
+      <div class="trust-items">
+        <div class="trust-item">
+          <div class="trust-check"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+          Free recorded audit
+        </div>
+        <div class="trust-item">
+          <div class="trust-check"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+          24-hour response
+        </div>
+        <div class="trust-item">
+          <div class="trust-check"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+          Zero commitment
+        </div>
+      </div>
+    </div>
+    <div class="form-right">
+      <form id="lead-form" action="https://formspree.io/f/PLACEHOLDER" method="POST">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="jane@business.com" required>
+        <label for="business">Business type</label>
+        <select id="business" name="business" required>
+          <option value="" disabled selected>Select type</option>
+          <option value="salon-spa">Salon / Spa</option>
+          <option value="healthcare">Healthcare / Dental</option>
+          <option value="saas">SaaS / App</option>
+          <option value="agency">Agency / Consulting</option>
+          <option value="ecommerce">E-commerce</option>
+          <option value="real-estate">Real Estate</option>
+          <option value="contractor">Home Services</option>
+          <option value="other">Other</option>
+        </select>
+        <label for="website">Website <span style="opacity:0.35">(optional)</span></label>
+        <input type="url" id="website" name="website" placeholder="https://yourbusiness.com">
+        <label for="message">Biggest challenge?</label>
+        <textarea id="message" name="message" placeholder="e.g. traffic but no bookings..."></textarea>
+        <button type="submit" class="submit-btn">Request Free Audit</button>
+        <p class="form-note">No spam. Ever.</p>
+      </form>
+      <div class="form-success" id="form-success">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h4>Request received!</h4>
+        <p>Your funnel audit is on the way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; 2026 SignupFunnel. All rights reserved.</footer>
 
 <script>
-  document.getElementById('lead-form').addEventListener('submit', async (e) => {
+(function(){
+  'use strict';
+
+  // ═══ PARTICLE FIELD (like Jeton falling coins — but funnel shapes) ═══
+  const pc = document.getElementById('particles');
+  const colors = ['#8b5cf6','#34d399','#f87171','#fbbf24','#60a5fa','#a78bfa'];
+
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const size = 3 + Math.random()*6;
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      border-radius:50%;
+      background:${color};
+      box-shadow: 0 0 ${size*2}px ${color};
+      --d:${7+Math.random()*10}s;
+      --del:${-Math.random()*16}s;
+      --o:${0.2+Math.random()*0.35};
+      --drift:${(Math.random()-0.5)*60}px;
+      --drift2:${(Math.random()-0.5)*80}px;
+    `;
+    pc.appendChild(el);
+  }
+
+  // ═══ SCROLL REVEAL ═══
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.sr, .sr-scale').forEach(el => obs.observe(el));
+
+  // ═══ NAV SCROLL ═══
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ═══ HERO PARALLAX ═══
+  const megaFunnel = document.getElementById('megaFunnel');
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+  function heroParallax() {
+    if (megaFunnel) {
+      const p = Math.min(scrollY / window.innerHeight, 1);
+      const scale = 1 + p * 0.3;
+      const opacity = 0.6 - p * 0.6;
+      megaFunnel.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      megaFunnel.style.opacity = Math.max(0, opacity);
+    }
+    requestAnimationFrame(heroParallax);
+  }
+  heroParallax();
+
+  // ═══ COUNTER ANIMATION ═══
+  function animateNum(el) {
+    const target = parseInt(el.dataset.count);
+    const unitEl = el.querySelector('.u');
+    const unit = unitEl ? unitEl.textContent : '';
+    const dur = 1800;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 4);
+      el.innerHTML = Math.round(target * e) + (unit ? `<span class="u">${unit}</span>` : '');
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const numObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateNum(e.target); numObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.num-big[data-count]').forEach(el => numObs.observe(el));
+
+  // ═══ DRAG TO SCROLL (industries) ═══
+  const scroll = document.getElementById('indScroll');
+  let isDown = false, startX, scrollLeft;
+  scroll.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - scroll.offsetLeft; scrollLeft = scroll.scrollLeft; });
+  scroll.addEventListener('mouseleave', () => { isDown = false; });
+  scroll.addEventListener('mouseup', () => { isDown = false; });
+  scroll.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    scroll.scrollLeft = scrollLeft - (e.pageX - scroll.offsetLeft - startX) * 1.5;
+  });
+
+  // ═══ FORM ═══
+  document.getElementById('lead-form').addEventListener('submit', async e => {
     e.preventDefault();
     const form = e.target;
-    const data = new FormData(form);
-
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (res.ok) {
-        form.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-      } else {
-        alert('Something went wrong. Please try again or email us directly.');
-      }
-    } catch {
-      alert('Something went wrong. Please try again.');
-    }
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+      if (res.ok) { form.style.display = 'none'; document.getElementById('form-success').style.display = 'block'; }
+      else alert('Something went wrong. Please try again.');
+    } catch { alert('Something went wrong. Please try again.'); }
   });
+})();
 </script>
 
 </body>
